@@ -1,0 +1,45 @@
+name: Publish project site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - 'presentation/animated.html'
+      - 'presentation/assets/**'
+      - 'output/pdf/universal-assistant-case-2026.pdf'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Assemble public static files
+        run: |
+          mkdir -p public/assets public/deck/assets
+          cp site/index.html public/index.html
+          cp presentation/animated.html public/deck/index.html
+          cp presentation/assets/product-bridge-crop.png presentation/assets/product-answer-crop.png public/assets/
+          cp presentation/assets/* public/deck/assets/
+          cp output/pdf/universal-assistant-case-2026.pdf public/case.pdf
+          touch public/.nojekyll
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+      - id: deployment
+        uses: actions/deploy-pages@v4
