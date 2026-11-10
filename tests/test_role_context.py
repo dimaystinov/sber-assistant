@@ -91,11 +91,28 @@ def test_cross_retrieval_uses_only_preverified_summary() -> None:
     )
     manager.grant_consent(Role.BUSINESS, ConsentScope.LLM_PROCESSING, "sbi_business")
     manager.grant_consent(Role.BUSINESS, ConsentScope.CROSS_RETRIEVAL_RETAIL, "sbi_business")
+    manager.grant_consent(Role.RETAIL, ConsentScope.CROSS_RETRIEVAL_RETAIL, "sberbank_online")
     manager.switch_role(Role.BUSINESS, "sbi_business")
 
     context = manager.get_context("оборот", cross_role_opt_in=True)
     assert context["cross_context_anonymized"] == [{"summary": "оборот 100000 рублей"}]
     assert "личные сведения" not in str(context)
+
+
+def test_cross_retrieval_denies_when_source_role_has_not_consented() -> None:
+    manager, _ = make_manager()
+    manager.grant_consent(Role.RETAIL, ConsentScope.LLM_PROCESSING, "sberbank_online")
+    manager.switch_role(Role.RETAIL, "sberbank_online")
+    manager.remember(
+        "личные сведения перед: оборот 100000 рублей",
+        {"cross_shareable_verified": True, "cross_shareable_summary": "оборот 100000 рублей"},
+    )
+    manager.grant_consent(Role.BUSINESS, ConsentScope.LLM_PROCESSING, "sbi_business")
+    manager.grant_consent(Role.BUSINESS, ConsentScope.CROSS_RETRIEVAL_RETAIL, "sbi_business")
+    manager.switch_role(Role.BUSINESS, "sbi_business")
+
+    context = manager.get_context("оборот", cross_role_opt_in=True)
+    assert context["cross_context_anonymized"] == []
 
 
 def test_withdraw_revokes_sessions_and_deletes_data() -> None:

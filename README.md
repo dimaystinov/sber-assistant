@@ -1,5 +1,7 @@
 # Универсальный помощник Сбера — прототип для чемпионата
 
+**Исходное задание чемпионата:** [`docs/source/AI-for-Business-Cup-2026-Sber-case-v3.pdf`](docs/source/AI-for-Business-Cup-2026-Sber-case-v3.pdf)  
+**Сверка решения с шестью требованиями кейса:** [`docs/CASE-REQUIREMENTS-AUDIT.md`](docs/CASE-REQUIREMENTS-AUDIT.md)  
 **Корень проекта:** каталог `sber-assistant` после клонирования репозитория.  
 **Научная статья и воспроизводимые результаты:** [`docs/SCIENTIFIC-ARTICLE-AI-AGENTS.md`](docs/SCIENTIFIC-ARTICLE-AI-AGENTS.md)  
 **План MCP-интеграции:** [`docs/MCP-INTEGRATION-PLAN.md`](docs/MCP-INTEGRATION-PLAN.md)  
@@ -21,6 +23,7 @@
 
 **Презентация для чемпионата:** 12 слайдов в Spaces, Page ID `page_db771bd5b4288191b4f6c6e071c50772`.  
 **Версия с анимацией для локального показа:** `presentation/animated.html`.  
+**Статус сдачи:** HTML-демонстрация ещё не является итоговым PDF до 15 слайдов; в ней пока нет расчёта эффектов и стоимости по 2027–2029 годам.  
 **Готовый спич и ответы жюри:** `docs/CHAMPIONSHIP-PITCH.md`.
 **Исследование визуального стиля и анимации:** `docs/PRESENTATION-DESIGN.md`.
 
@@ -30,7 +33,7 @@
 
 График: [`docs/figures/research-results.png`](docs/figures/research-results.png). Машинные результаты: [`evals/results/large-deployment-simulation.json`](evals/results/large-deployment-simulation.json), [`evals/results/large-deployment-simulation-mcp.json`](evals/results/large-deployment-simulation-mcp.json), [`evals/results/rag-benchmark.json`](evals/results/rag-benchmark.json), [`evals/results/guarded-probe.jsonl`](evals/results/guarded-probe.jsonl). Протокол будущего контролируемого пилота — в статье. Векторные Sber `EmbeddingsGigaR` не оценены: доступный ключ получил HTTP 402.
 
-Для воспроизведения: `.venv/bin/python -m pytest -q`, затем `.venv/bin/python -m evals.simulate_deployment --per-role 1200 --seed 20261109 --mcp --output evals/results/large-deployment-simulation-mcp.json`, `.venv/bin/python -m evals.simulate_service_matrix --per-role 1200 --seed 20261110 --output evals/results/service-matrix.json` и `.venv/bin/python -m evals.evaluate_rag --semantic-router`. Текущий прогон тестов: **93 passed** (10 ноября 2026). В первом массиве 3 600 эпизодов на 23 шаблонах, из них 1 734 диалога использовали MCP-поиск. Во втором — ещё 3 600 эпизодов на **50 расширенных шаблонах** для десяти категорий сервисов; все заданные проверки прошли. Оба массива остаются синтетическими повторениями с заглушкой модели.
+Для воспроизведения: `.venv/bin/python -m pytest -q`, затем `.venv/bin/python -m evals.simulate_deployment --per-role 1200 --seed 20261109 --mcp --output evals/results/large-deployment-simulation-mcp.json`, `.venv/bin/python -m evals.simulate_service_matrix --per-role 1200 --seed 20261110 --output evals/results/service-matrix.json` и `.venv/bin/python -m evals.evaluate_rag --semantic-router`. Текущий прогон тестов: **94 passed** (10 ноября 2026). В первом массиве 3 600 эпизодов на 23 шаблонах, из них 1 734 диалога использовали MCP-поиск. Во втором — ещё 3 600 эпизодов на **50 расширенных шаблонах** для десяти категорий сервисов; все заданные проверки прошли. Оба массива остаются синтетическими повторениями с заглушкой модели.
 
 **MCP:** подключён настоящий in-process MCP-клиент/сервер для поиска по учебным ролевым документам, чтения учебного остатка/каталога/бизнес-данных/задач и расчёта кассового разрыва. Граф использует MCP через серверный broker; роль, согласие, возвращённый источник и расчёт проверяются кодом. Отдельный учебный MCP-двойник создаёт платёжный **черновик** после `prepare/confirm`. Для официальной песочницы подготовлен отдельный read-only [mTLS-коннектор](assistant/sber_sandbox.py), который делает MCP handshake и `tools/list` на пяти фиксированных тестовых адресах. Он проверен локально, но банковский стенд ещё не вызывался: тестовые `.p12` и `access_token` не выданы. Реальные банковские системы и исполнение платежа не подключены. Публичные Sber docs-mcp, Voice Salute, Kandinsky и Think MCP описаны в [`плане`](docs/MCP-INTEGRATION-PLAN.md) с назначением и границами безопасности.
 

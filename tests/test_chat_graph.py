@@ -214,6 +214,7 @@ def test_cross_role_aggregate_is_labeled_and_raw_text_is_not_sent():
     )
     manager.grant_consent(Role.BUSINESS, ConsentScope.LLM_PROCESSING, "test")
     manager.grant_consent(Role.BUSINESS, ConsentScope.CROSS_RETRIEVAL_RETAIL, "test")
+    manager.grant_consent(Role.RETAIL, ConsentScope.CROSS_RETRIEVAL_RETAIL, "test")
     manager.switch_role(Role.BUSINESS, "test")
     model = FakeModel()
 

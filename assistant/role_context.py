@@ -139,6 +139,7 @@ class RoleContextManager:
             )
             and other not in [self._active_role]
             and self.check_consent(other, ConsentScope.LLM_PROCESSING)
+            and self.check_consent(other, ConsentScope.CROSS_RETRIEVAL_RETAIL)
         ):
             cross = self._retrieve_cross(other, query, k=1)
         return {
