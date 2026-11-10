@@ -204,7 +204,7 @@ def test_demo_instruction_cannot_answer_request_for_real_sber_regulation():
     assert model.calls == []
 
 
-def test_cross_role_aggregate_is_labeled_and_raw_text_is_not_sent():
+def test_untrusted_cross_role_metadata_is_not_sent_to_model():
     manager = RoleContextManager(SubjectIdentity("synthetic-person"), ConsentService())
     manager.grant_consent(Role.RETAIL, ConsentScope.LLM_PROCESSING, "test")
     manager.switch_role(Role.RETAIL, "test")
@@ -220,9 +220,7 @@ def test_cross_role_aggregate_is_labeled_and_raw_text_is_not_sent():
 
     build_chat_graph(manager, model).invoke({"query": "оборот", "cross_role_opt_in": True})
     sent_context = model.calls[0][2]
-    assert "Разрешённый обезличенный агрегат другой роли" in sent_context
-    assert "оборот 100000" in sent_context
-    assert "секретный текст" not in sent_context
+    assert sent_context is None
 
 
 def test_tool_gateway_denies_unknown_and_write_tools():

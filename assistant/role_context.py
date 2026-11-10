@@ -45,8 +45,8 @@ class RoleContextManager:
       ConsentService (журнал WORM), RedisSessionStore, VectorStore;
     - switch_role() ЗАПРЕЩАЕТ переход без активного согласия LLM-обработки
       и всегда открывает НОВУЮ сессию в другом namespace;
-    - get_context() возвращает контекст ИЗ ОДНОГО namespace (плюс обезличенные
-      «мостики» из других ролей только при двойном согласии cross_retrieval);
+    - get_context() возвращает контекст ИЗ ОДНОГО namespace; произвольные
+      метаданные документа не могут разрешить обмен между ролями;
     - check_consent() — первичная проверка до любого обращения к LLM/БД.
     """
 
@@ -118,38 +118,21 @@ class RoleContextManager:
 
     def get_context(self, query: str, k: int = 3,
                     cross_role_opt_in: bool = False) -> dict:
-        """Возврат контекста ТОЛЬКО активной роли.
+        """Возврат контекста только активной роли.
 
-        При активном двойном согласии cross_retrieval и ОБЕИХ активных ролях
-        (retail+business) может примешать ОБЕЗЛИЧЕННЫЕ факты из второй роли —
-        только факты/числа, без текстов переписки и без PII.
+        cross_role_opt_in сохранён для совместимости API, но сам по себе не
+        разрешает чтение чужого хранилища или перенос текста модели.
         """
         if self._active_role is None:
             raise PermissionError("Активная роль не выбрана — сначала switch_role()")
         session = self._current_session()
         own = self._vectors.retrieve(self._active_role, session.subject_hash, query, k=k)
-        cross: list[dict] = []
-        if (
-            cross_role_opt_in
-            and
-            self._active_role in (Role.RETAIL, Role.BUSINESS)
-            and self.check_consent(self._active_role, ConsentScope.CROSS_RETRIEVAL_RETAIL)
-            and (
-                other := Role.BUSINESS if self._active_role is Role.RETAIL else Role.RETAIL
-            )
-            and other not in [self._active_role]
-            and self.check_consent(other, ConsentScope.LLM_PROCESSING)
-            and self.check_consent(other, ConsentScope.CROSS_RETRIEVAL_RETAIL)
-        ):
-            cross = self._retrieve_cross(other, query, k=1)
         return {
             "role": self._active_role.value,
             "namespace": session.namespace,
             "session_id": session.session_id,
             "own_context": [{"id": d["id"], "text": d["text"]} for d in own],
-            "cross_context_anonymized": [
-                {"summary": d["text"]} for d in cross
-            ],  # обезличено, только суть
+            "cross_context_anonymized": [],
         }
 
     def remember(self, text: str, meta: Mapping | None = None) -> str:
@@ -236,24 +219,6 @@ class RoleContextManager:
         return RoleContext(
             session=session, switched_now=switched_now, available_scopes=scopes
         )
-
-    def _retrieve_cross(self, other_role: Role, query: str, k: int) -> list[dict]:
-        # Только обезличенные факты; полное cross-чтение запрещено даже при
-        # активных согласиях обеих ролей (передаются только итоги/метрики).
-        raw = self._vectors.retrieve(other_role, self._current_hash(other_role), query, k=k)
-        self._audit("cross_retrieval", role=self._active_role, channel="dialog",
-                    detail={"other_role": other_role.value, "k": len(raw)})
-        sanitized: list[dict] = []
-        for d in raw:
-            # Исходный текст никогда не пересекает границу роли. Публиковать
-            # агрегат может только доверенный конвейер подготовки данных.
-            meta = d.get("meta", {})
-            if meta.get("cross_shareable_verified") is not True:
-                continue
-            summary = meta.get("cross_shareable_summary")
-            if isinstance(summary, str) and summary.strip():
-                sanitized.append({"text": summary.strip()})
-        return sanitized
 
     @staticmethod
     def _doc_version(scope: ConsentScope) -> int | None:

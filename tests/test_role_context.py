@@ -81,7 +81,7 @@ def test_cross_retrieval_requires_opt_in_on_this_request() -> None:
     assert opted_in["cross_context_anonymized"] == []
 
 
-def test_cross_retrieval_uses_only_preverified_summary() -> None:
+def test_untrusted_metadata_cannot_publish_cross_role_summary() -> None:
     manager, _ = make_manager()
     manager.grant_consent(Role.RETAIL, ConsentScope.LLM_PROCESSING, "sberbank_online")
     manager.switch_role(Role.RETAIL, "sberbank_online")
@@ -95,7 +95,7 @@ def test_cross_retrieval_uses_only_preverified_summary() -> None:
     manager.switch_role(Role.BUSINESS, "sbi_business")
 
     context = manager.get_context("оборот", cross_role_opt_in=True)
-    assert context["cross_context_anonymized"] == [{"summary": "оборот 100000 рублей"}]
+    assert context["cross_context_anonymized"] == []
     assert "личные сведения" not in str(context)
 
 

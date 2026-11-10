@@ -35,7 +35,7 @@
 
 График: [`docs/figures/research-results.png`](docs/figures/research-results.png). Машинные результаты: [`evals/results/large-deployment-simulation.json`](evals/results/large-deployment-simulation.json), [`evals/results/large-deployment-simulation-mcp.json`](evals/results/large-deployment-simulation-mcp.json), [`evals/results/rag-benchmark.json`](evals/results/rag-benchmark.json), [`evals/results/guarded-probe.jsonl`](evals/results/guarded-probe.jsonl). Протокол будущего контролируемого пилота — в статье. Векторные Sber `EmbeddingsGigaR` не оценены: доступный ключ получил HTTP 402.
 
-Для воспроизведения: `.venv/bin/python -m pytest -q`, затем `.venv/bin/python -m evals.case_economics --output evals/results/case-economics.json`, `.venv/bin/python -m presentation.build_case_pdf`, `.venv/bin/python -m evals.simulate_deployment --per-role 1200 --seed 20261109 --mcp --output evals/results/large-deployment-simulation-mcp.json`, `.venv/bin/python -m evals.simulate_service_matrix --per-role 1200 --seed 20261110 --output evals/results/service-matrix.json` и `.venv/bin/python -m evals.evaluate_rag --semantic-router`. Текущий прогон тестов: **98 passed** (10 ноября 2026). В первом массиве 3 600 эпизодов на 23 шаблонах, из них 1 734 диалога использовали MCP-поиск. Во втором — ещё 3 600 эпизодов на **50 расширенных шаблонах** для десяти категорий сервисов; все заданные проверки прошли. Оба массива остаются синтетическими повторениями с заглушкой модели.
+Для воспроизведения: `.venv/bin/python -m pytest -q`, затем `.venv/bin/python -m evals.case_economics --output evals/results/case-economics.json`, `.venv/bin/python -m presentation.build_case_pdf`, `.venv/bin/python -m evals.simulate_deployment --per-role 1200 --seed 20261109 --mcp --output evals/results/large-deployment-simulation-mcp.json`, `.venv/bin/python -m evals.simulate_service_matrix --per-role 1200 --seed 20261110 --output evals/results/service-matrix.json` и `.venv/bin/python -m evals.evaluate_rag --semantic-router`. Текущий прогон тестов: **101 passed** (10 ноября 2026). В первом массиве 3 600 эпизодов на 23 шаблонах, из них 1 734 диалога использовали MCP-поиск. Во втором — ещё 3 600 эпизодов на **50 расширенных шаблонах** для десяти категорий сервисов; все заданные проверки прошли. Оба массива остаются синтетическими повторениями с заглушкой модели.
 
 **MCP:** подключён настоящий in-process MCP-клиент/сервер для поиска по учебным ролевым документам, чтения учебного остатка/каталога/бизнес-данных/задач и расчёта кассового разрыва. Граф использует MCP через серверный broker; роль, согласие, возвращённый источник и расчёт проверяются кодом. Отдельный учебный MCP-двойник создаёт платёжный **черновик** после `prepare/confirm`. Для официальной песочницы подготовлен отдельный read-only [mTLS-коннектор](assistant/sber_sandbox.py), который делает MCP handshake и `tools/list` на пяти фиксированных тестовых адресах. Он проверен локально, но банковский стенд ещё не вызывался: тестовые `.p12` и `access_token` не выданы. Реальные банковские системы и исполнение платежа не подключены. Публичные Sber docs-mcp, Voice Salute, Kandinsky и Think MCP описаны в [`плане`](docs/MCP-INTEGRATION-PLAN.md) с назначением и границами безопасности.
 
@@ -65,7 +65,7 @@
 ```
 
 Текущий код реализует LangGraph-путь: роль, согласия, изоляцию in-memory
-контекста, явный opt-in, проверку наличия источника и вызов GigaChat через
+контекста, явный opt-in для учебного перехода, проверку наличия источника и вызов GigaChat через
 официальный `langchain-gigachat`. Для каждой роли есть отдельная учебная база
 знаний с идентификатором, версией, датой действия и происхождением документа.
 SberID, KMS, Redis, PostgreSQL/pgvector, корпоративные документы, полноценная
@@ -78,7 +78,8 @@ SberID, KMS, Redis, PostgreSQL/pgvector, корпоративные докуме
 | Путь от корня проекта | Назначение |
 |---|---|
 | `assistant/api.py` | FastAPI: диалог, смена роли, согласия |
-| `assistant/role_context.py` | Изоляция ролей, opt-in, сквозные агрегаты |
+| `assistant/role_context.py` | Изоляция ролей; запрет прямого чтения чужого контекста |
+| `assistant/handoff.py` | Одноразовый учебный переход retail ↔ business без переноса данных |
 | `assistant/consent.py` | Прототип журнала согласий |
 | `assistant/context_store.py` | In-memory сессии и поиск |
 | `assistant/gigachat.py` | GigaChat REST API, OAuth и ролевые инструкции |
@@ -98,10 +99,13 @@ SberID, KMS, Redis, PostgreSQL/pgvector, корпоративные докуме
 | `docs/HARNESS-RESEARCH-AND-DESIGN.md` | Источники, анализ форков и harness |
 | `docs/GIGAGRAPH-IMPROVEMENTS.md` | Улучшения графа, multi-agent и tool broker |
 
-Сквозной контекст сейчас передаёт только заранее отмеченный проверенный
-агрегат, никогда исходную переписку. Доверенный конвейер подготовки агрегатов
-ещё не подключён; флаг в in-memory метаданных не заменяет проверку
-происхождения в промышленной системе.
+Сквозной переход сейчас передаёт только фиксированное намерение продолжить
+задачу через одноразовый токен на 120 секунд. Текст, выписки, история, RAG,
+эмбеддинги и данные сотрудника не передаются. Ранее метаданные документа могли
+самостоятельно разрешить «проверенный агрегат»; этот путь закрыт, а параметр
+`cross_role_opt_in` сохранён для совместимости без прямого cross-RAG. Подробная
+[карта доверия и законных оснований](docs/THREE-CONTOUR-LEGAL-ARCHITECTURE.md)
+показывает, как позже добавить строго проверенные точечные запросы к источнику.
 
 ## Сравнение моделей Сбера
 
