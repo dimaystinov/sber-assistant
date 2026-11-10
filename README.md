@@ -2,7 +2,7 @@
 
 > Один человек приходит в банк как клиент, предприниматель или сотрудник. Задача должна продолжаться, а права и данные каждой роли — оставаться под контролем.
 
-**[Открыть сайт](https://sber.dimaystinov.duckdns.org/) · [Анимированная презентация](https://sber.dimaystinov.duckdns.org/deck/) · [PDF для жюри](output/pdf/universal-assistant-case-2026.pdf) · [Архитектура](docs/PROJECT-ARCHITECTURE.md)**
+**[Открыть сайт](https://sber.dimaystinov.duckdns.org/) · [GitHub Pages](https://dimaystinov.github.io/sber-assistant/) · [Анимированная презентация](https://sber.dimaystinov.duckdns.org/deck/) · [PDF для жюри](output/pdf/universal-assistant-case-2026.pdf) · [Архитектура](docs/PROJECT-ARCHITECTURE.md)**
 
 «Контур» — работающий учебный продукт по кейсу Сбера для AI for Business Cup 2026. В репозитории есть браузерное приложение, API, GigaChat harness, ролевой MCP, симуляторы банковских сервисов, воспроизводимые проверки и презентация. Его можно запустить и пройти сквозной сценарий. **Реальные сервисы Сбера и данные клиентов не подключены**: для них нужны доступ к песочнице, согласованные права и проверенные источники.
 
@@ -70,7 +70,7 @@ python3 -m venv .venv
 .venv/bin/python -m presentation.build_case_pdf
 ```
 
-Публичный сайт — **витрина и презентация**, а не размещённый банковский backend. Интерактивное приложение запускается локально по инструкции выше. [Как опубликован сайт →](docs/SITE-DEPLOYMENT.md)
+Публичный сайт работает на [серверном поддомене](https://sber.dimaystinov.duckdns.org/) и [GitHub Pages](https://dimaystinov.github.io/sber-assistant/). Это **витрина и презентация**, а не размещённый банковский backend. Интерактивное приложение запускается локально по инструкции выше. [Как опубликован сайт →](docs/SITE-DEPLOYMENT.md)
 
 ## Карта проекта
 
