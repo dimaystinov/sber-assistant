@@ -1,0 +1,238 @@
+{
+  "status": "illustrative_scenarios_not_sber_forecasts",
+  "baseline": "existing_role_assistants",
+  "unit": "million_rub",
+  "scenarios": {
+    "low": {
+      "assumptions": {
+        "linked_people": [
+          50000,
+          250000,
+          600000
+        ],
+        "cross_role_tasks_per_person": [
+          3,
+          4,
+          5
+        ],
+        "avoided_contact_share": "0.15",
+        "effective_value_per_avoided_contact_rub": "100",
+        "minutes_saved_per_task": "2",
+        "inference_cost_per_task_rub": "5",
+        "build_mrub": [
+          "70",
+          "40",
+          "10"
+        ],
+        "platform_ops_mrub": [
+          "20",
+          "40",
+          "70"
+        ],
+        "governance_mrub": [
+          "10",
+          "15",
+          "20"
+        ]
+      },
+      "years": [
+        {
+          "year": 2027,
+          "linked_people": 50000,
+          "cross_role_tasks": 150000,
+          "avoided_contacts": "22500.00",
+          "gross_effect_mrub": "2.25",
+          "build_mrub": "70",
+          "platform_ops_mrub": "20",
+          "inference_mrub": "0.75",
+          "governance_mrub": "10",
+          "total_cost_mrub": "100.75",
+          "net_effect_mrub": "-98.50",
+          "person_hours_saved": "5000"
+        },
+        {
+          "year": 2028,
+          "linked_people": 250000,
+          "cross_role_tasks": 1000000,
+          "avoided_contacts": "150000.00",
+          "gross_effect_mrub": "15.00",
+          "build_mrub": "40",
+          "platform_ops_mrub": "40",
+          "inference_mrub": "5",
+          "governance_mrub": "15",
+          "total_cost_mrub": "100",
+          "net_effect_mrub": "-85.00",
+          "person_hours_saved": "33333.33333333333333333333333"
+        },
+        {
+          "year": 2029,
+          "linked_people": 600000,
+          "cross_role_tasks": 3000000,
+          "avoided_contacts": "450000.00",
+          "gross_effect_mrub": "45.00",
+          "build_mrub": "10",
+          "platform_ops_mrub": "70",
+          "inference_mrub": "15",
+          "governance_mrub": "20",
+          "total_cost_mrub": "115",
+          "net_effect_mrub": "-70.00",
+          "person_hours_saved": "100000"
+        }
+      ]
+    },
+    "base": {
+      "assumptions": {
+        "linked_people": [
+          100000,
+          500000,
+          1200000
+        ],
+        "cross_role_tasks_per_person": [
+          4,
+          6,
+          8
+        ],
+        "avoided_contact_share": "0.25",
+        "effective_value_per_avoided_contact_rub": "120",
+        "minutes_saved_per_task": "3",
+        "inference_cost_per_task_rub": "5",
+        "build_mrub": [
+          "70",
+          "40",
+          "10"
+        ],
+        "platform_ops_mrub": [
+          "20",
+          "40",
+          "70"
+        ],
+        "governance_mrub": [
+          "10",
+          "15",
+          "20"
+        ]
+      },
+      "years": [
+        {
+          "year": 2027,
+          "linked_people": 100000,
+          "cross_role_tasks": 400000,
+          "avoided_contacts": "100000.00",
+          "gross_effect_mrub": "12.00",
+          "build_mrub": "70",
+          "platform_ops_mrub": "20",
+          "inference_mrub": "2",
+          "governance_mrub": "10",
+          "total_cost_mrub": "102",
+          "net_effect_mrub": "-90.00",
+          "person_hours_saved": "20000"
+        },
+        {
+          "year": 2028,
+          "linked_people": 500000,
+          "cross_role_tasks": 3000000,
+          "avoided_contacts": "750000.00",
+          "gross_effect_mrub": "90.00",
+          "build_mrub": "40",
+          "platform_ops_mrub": "40",
+          "inference_mrub": "15",
+          "governance_mrub": "15",
+          "total_cost_mrub": "110",
+          "net_effect_mrub": "-20.00",
+          "person_hours_saved": "150000"
+        },
+        {
+          "year": 2029,
+          "linked_people": 1200000,
+          "cross_role_tasks": 9600000,
+          "avoided_contacts": "2400000.00",
+          "gross_effect_mrub": "288.00",
+          "build_mrub": "10",
+          "platform_ops_mrub": "70",
+          "inference_mrub": "48",
+          "governance_mrub": "20",
+          "total_cost_mrub": "148",
+          "net_effect_mrub": "140.00",
+          "person_hours_saved": "480000"
+        }
+      ]
+    },
+    "high": {
+      "assumptions": {
+        "linked_people": [
+          150000,
+          700000,
+          1600000
+        ],
+        "cross_role_tasks_per_person": [
+          5,
+          7,
+          9
+        ],
+        "avoided_contact_share": "0.30",
+        "effective_value_per_avoided_contact_rub": "150",
+        "minutes_saved_per_task": "4",
+        "inference_cost_per_task_rub": "5",
+        "build_mrub": [
+          "70",
+          "40",
+          "10"
+        ],
+        "platform_ops_mrub": [
+          "20",
+          "40",
+          "70"
+        ],
+        "governance_mrub": [
+          "10",
+          "15",
+          "20"
+        ]
+      },
+      "years": [
+        {
+          "year": 2027,
+          "linked_people": 150000,
+          "cross_role_tasks": 750000,
+          "avoided_contacts": "225000.00",
+          "gross_effect_mrub": "33.75",
+          "build_mrub": "70",
+          "platform_ops_mrub": "20",
+          "inference_mrub": "3.75",
+          "governance_mrub": "10",
+          "total_cost_mrub": "103.75",
+          "net_effect_mrub": "-70.00",
+          "person_hours_saved": "50000"
+        },
+        {
+          "year": 2028,
+          "linked_people": 700000,
+          "cross_role_tasks": 4900000,
+          "avoided_contacts": "1470000.00",
+          "gross_effect_mrub": "220.50",
+          "build_mrub": "40",
+          "platform_ops_mrub": "40",
+          "inference_mrub": "24.5",
+          "governance_mrub": "15",
+          "total_cost_mrub": "119.5",
+          "net_effect_mrub": "101.00",
+          "person_hours_saved": "326666.6666666666666666666667"
+        },
+        {
+          "year": 2029,
+          "linked_people": 1600000,
+          "cross_role_tasks": 14400000,
+          "avoided_contacts": "4320000.00",
+          "gross_effect_mrub": "648.00",
+          "build_mrub": "10",
+          "platform_ops_mrub": "70",
+          "inference_mrub": "72",
+          "governance_mrub": "20",
+          "total_cost_mrub": "172",
+          "net_effect_mrub": "476.00",
+          "person_hours_saved": "960000"
+        }
+      ]
+    }
+  }
+}

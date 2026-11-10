@@ -17,3 +17,4 @@ python-jose[cryptography]>=3.3
 tenacity>=8.2
 pytest>=8.0
 pytest-asyncio>=0.23
+reportlab>=4.4,<5  # воспроизводимая сборка итогового PDF кейса
