@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Помощник · учебная симуляция</title>
+  <style>
+    :root{font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#18251f;background:#f3f7f3}
+    *{box-sizing:border-box}body{margin:0}header{background:#0b6540;color:white;padding:20px 5vw}header h1{margin:0;font-size:1.55rem}header p{margin:4px 0 0;color:#d5f3df}
+    main{max-width:1100px;margin:26px auto;padding:0 18px;display:grid;grid-template-columns:330px 1fr;gap:20px}
+    section{background:white;border:1px solid #d7e4db;border-radius:15px;padding:20px;box-shadow:0 4px 16px #0f3d2110}h2{margin:0 0 14px;font-size:1.12rem}label{display:block;margin:13px 0 5px;font-weight:600;font-size:.9rem}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;border:1px solid #a9beaf;border-radius:9px;padding:10px;background:#fff}textarea{min-height:90px;resize:vertical}button{border:0;border-radius:9px;background:#0b6540;color:#fff;padding:10px 14px;cursor:pointer;margin-top:10px}button:hover{background:#084f32}button.secondary{background:#e9f3ec;color:#164a30}button.danger{background:#924b19}.notice{background:#fff4df;border:1px solid #eac985;border-radius:9px;padding:11px;margin-bottom:16px}.muted{color:#52665a;font-size:.9rem}.row{display:flex;gap:8px;flex-wrap:wrap}.row button{flex:1;min-width:110px}.output{white-space:pre-wrap;background:#f5f8f5;border-radius:9px;padding:12px;min-height:50px;word-break:break-word}.message{padding:13px;border-bottom:1px solid #e2eae4}.message:last-child{border-bottom:0}.message strong{display:block;color:#0b6540}.message small{color:#53665b}#messages{max-height:430px;overflow:auto}.hidden{display:none}pre{white-space:pre-wrap;word-break:break-word;background:#f5f8f5;padding:12px;border-radius:9px;max-height:280px;overflow:auto}@media(max-width:760px){main{display:block}section{margin-bottom:18px}}
+  </style>
+</head>
+<body>
+<header><h1>Помощник для трёх ролей</h1><p>Локальная учебная симуляция · GigaChat · все данные и действия вымышлены</p></header>
+<main>
+  <div>
+    <section><h2>Доступ и роль</h2>
+      <div class="notice">ДЕМО: это не приложение Сбера. Ответы создаёт ИИ, он может ошибаться. Не вводите реальные персональные или банковские данные; не используйте ответы как профессиональную финансовую консультацию.</div>
+      <label for="token">Локальный токен из .env</label><input id="token" type="password" autocomplete="off" placeholder="ASSISTANT_DEMO_TOKEN">
+      <label for="role">Роль</label><select id="role"><option value="retail">Клиент</option><option value="business">Предприниматель</option><option value="employee">Сотрудник</option></select>
+      <button id="connect">Подключить учебную роль</button><p id="status" class="muted">Сначала введите локальный токен.</p>
+    </section>
+    <section><h2>Учебные данные</h2><div id="readButtons" class="row"></div><pre id="state">Подключите роль.</pre></section>
+    <section><h2>MCP-сервисы · ДЕМО</h2><p class="muted">Имена банковских инструментов взяты из публичной документации. Данные, CRM, HR и ИТ здесь учебные.</p>
+      <label for="mcpTool">Разрешённый инструмент</label><select id="mcpTool"></select>
+      <button id="mcpRun" class="secondary">Вызвать MCP</button><pre id="mcpOutput">Подключите роль.</pre>
+      <div id="mcpPayment" class="hidden"><h3>Учебный платёжный черновик</h3><p class="muted">Подтверждение создаст только черновик со статусом CREATED. Подписи и списания денег нет.</p>
+        <label for="mcpAmount">Сумма, ₽</label><input id="mcpAmount" inputmode="decimal" value="1250.00">
+        <label for="mcpPurpose">Назначение</label><input id="mcpPurpose" value="Учебный счёт">
+        <button id="mcpPrepare">Показать платёжный черновик</button>
+        <div id="mcpPending" class="hidden"><pre id="mcpPreview"></pre><button id="mcpConfirm" class="danger">Подтвердить создание черновика</button></div>
+      </div>
+    </section>
+    <section><h2>Действие</h2><p class="muted">Сначала создаётся черновик. Изменение симулятора происходит после подтверждения.</p>
+      <label for="action">Тип действия</label><select id="action"></select>
+      <div id="fields"></div><button id="prepare">Показать черновик</button>
+      <div id="pending" class="hidden"><pre id="preview"></pre><button id="confirm" class="danger">Подтвердить учебное действие</button></div>
+    </section>
+  </div>
+  <section><h2>Диалог</h2><div id="messages" class="output"><div class="muted">Задайте вопрос после выбора роли. Для сотрудника ответ по процедуре возможен только по найденному учебному документу.</div></div>
+    <label for="query">Ваш вопрос</label><textarea id="query" placeholder="Например: Как оформить отпуск?"></textarea><button id="send">Отправить</button>
+    <p class="muted">Расчёты кассового разрыва доступны через структурные поля API. Ответы модели проверяет отдельный GigaChat-критик.</p>
+  </section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const channels={retail:'sberbank_online',business:'sbi_business',employee:'hr_portal'};
+const config={
+ retail:{reads:[['retail_balance','Учебный остаток'],['retail_catalog','Каталог']],actions:{add_to_cart:[['sku','Товар','select',['demo-headphones','demo-router']],['quantity','Количество','number']],book_appointment:[['slot','Время','select',['2026-11-12T12:00:00+03:00','2026-11-13T15:00:00+03:00']]]}},
+ business:{reads:[['business_cash_position','Кассовая позиция'],['business_competitors','Конкуренты'],['business_ads','Реклама']],actions:{create_ad_campaign:[['title','Название','text'],['channel','Канал','select',['search','social']],['budget','Бюджет','number']]}},
+ employee:{reads:[['employee_tasks','Задачи'],['employee_performance','Сводка задач'],['employee_procedure','Учебная инструкция']],actions:{assign_task:[['assignee','Исполнитель','select',['Анна','Илья']],['title','Задача','text']],create_support_ticket:[['topic','Тема обращения','text']]}}
+};
+const mcpPresets={
+ retail:[['identity','identity.me',{},'Учебная идентичность']],
+ business:[
+  ['identity','identity.me',{},'Учебная идентичность'],
+  ['client_info','accounts.get_list',{},'Счета организации'],
+  ['client_info','client_info.get_requisites',{},'Реквизиты организации'],
+  ['client_info','client_info.get_card_index',{accountNumbers:['DEMO-40702-1']},'Документы в картотеке'],
+  ['statement','statement.get_summary',{accountNumber:'DEMO-40702-1',statementDate:'2026-11-09'},'Сводка по счёту'],
+  ['statement','statement.get_rur_transactions',{accountNumber:'DEMO-40702-1',statementDate:'2026-11-09',page:1},'Операции выписки'],
+  ['statement','statement.get_rur_increment',{accountNumber:'DEMO-40702-1',lastModifyDate:'2026-11-09T09:00:00',page:1},'Инкрементальная выписка'],
+  ['payment','correspondent_rur.get',{searchCriteria:'7700000000'},'Контрагент'],
+  ['payment','rur_payment.get_state',{externalId:'demo-payment-1'},'Статус платежа'],
+  ['payment','rur_payment.get_credit_info',{},'Учебная кредитная линия'],
+  ['encashment','encashment.get_contracts_list',{page:1},'Договоры инкассации'],
+  ['encashment','encashment.get_objects_list_by_contract',{contractId:'DEMO-ENC-1',page:1},'Объекты инкассации'],
+  ['placement','deposit.get_commercial_offers',{page:1},'Учебные депозиты'],
+  ['placement','minimum_balance.get_commercial_offers',{page:1},'Учебный НСО'],
+  ['crm','crm.leads.get',{},'Учебные лиды CRM'],
+  ['crm','crm.opportunities.get',{},'Учебные сделки CRM']
+ ],
+ employee:[['identity','identity.me',{},'Учебная идентичность'],
+  ['hr','hr.leave_balance.get',{},'Учебный отпуск'],
+  ['hr','hr.training_catalog.get',{},'Учебные курсы'],
+  ['it','it.tickets.get',{},'Учебные ИТ-заявки'],
+  ['policy','policy.search',{query:'отпуск'},'Учебный регламент']]
+};
+let pending=null,mcpPending=null,connected=false;
+async function request(path,method='GET',body){const token=$('token').value.trim();const response=await fetch(path,{method,headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});let data=await response.json();if(!response.ok)throw new Error(typeof data.detail==='string'?data.detail:JSON.stringify(data.detail));return data}
+function status(text){$('status').textContent=text}
+function roleConfig(){return config[$('role').value]}
+function render(){const item=roleConfig();$('readButtons').replaceChildren();for(const [name,label] of item.reads){const b=document.createElement('button');b.className='secondary';b.textContent=label;b.onclick=async()=>{try{let query=name==='employee_procedure'?prompt('Тема учебной инструкции (например, отпуск, обучение или подарок):','отпуск'):'';if(query===null)return;let result=await request('/v1/demo/read/'+name+'?query='+encodeURIComponent(query));$('state').textContent=result.text+'\nИсточник: '+result.source_id+' · '+result.version}catch(e){status(e.message)}};$('readButtons').append(b)}$('action').replaceChildren();for(const kind of Object.keys(item.actions)){let option=document.createElement('option');option.value=kind;option.textContent=kind;$('action').append(option)}renderFields();$('pending').classList.add('hidden');$('mcpTool').replaceChildren();for(const [service,tool,,label] of mcpPresets[$('role').value]){let option=document.createElement('option');option.value=tool;option.textContent=label+' · '+service;$('mcpTool').append(option)}$('mcpPayment').classList.toggle('hidden',$('role').value!=='business');$('mcpPending').classList.add('hidden');$('mcpOutput').textContent='Выберите инструмент и подключите роль.'}
+function renderFields(){const fields=roleConfig().actions[$('action').value]||[];$('fields').replaceChildren();for(const [name,label,type,options] of fields){let l=document.createElement('label');l.textContent=label;l.htmlFor='field-'+name;$('fields').append(l);let el=type==='select'?document.createElement('select'):document.createElement('input');el.id='field-'+name;if(type==='select'){for(const value of options){let op=document.createElement('option');op.value=value;op.textContent=value;el.append(op)}}else el.type=type;$('fields').append(el)}}
+async function refresh(){let data=await request('/v1/demo/state');$('state').textContent=JSON.stringify(data.state,null,2)}
+$('role').onchange=()=>{connected=false;status('Подключите выбранную роль.');render()};$('action').onchange=renderFields;
+$('connect').onclick=async()=>{try{let role=$('role').value,channel=channels[role];await request('/v1/consents','POST',{scope:'llm_processing',role,channel});await request('/v1/role/switch','POST',{target_role:role,channel});connected=true;status('Роль подключена. Только учебные данные.');await refresh()}catch(e){connected=false;status(e.message)}};
+$('send').onclick=async()=>{if(!connected){status('Сначала подключите роль.');return}let query=$('query').value.trim();if(!query)return;let message=document.createElement('div');message.className='message';message.textContent='Вы: '+query;$('messages').append(message);$('query').value='';try{let data=await request('/v1/chat','POST',{query});let answer=document.createElement('div');answer.className='message';let strong=document.createElement('strong');strong.textContent='Помощник';let body=document.createElement('div');body.textContent=data.answer;let meta=document.createElement('small');meta.textContent='Решение: '+data.decision+' · Источники: '+(data.sources||[]).map(x=>x.source_id+' ('+x.version+')').join(', ');answer.append(strong,body,meta);$('messages').append(answer);$('messages').scrollTop=$('messages').scrollHeight}catch(e){status(e.message)}};
+$('prepare').onclick=async()=>{if(!connected){status('Сначала подключите роль.');return}const kind=$('action').value,payload={};for(const [name,,type] of roleConfig().actions[kind]){let value=$('field-'+name).value;payload[name]=type==='number'&&name==='quantity'?Number(value):value}try{pending=await request('/v1/demo/actions/prepare','POST',{kind,payload});$('preview').textContent='ДЕМО · '+kind+'\n'+JSON.stringify(pending.payload,null,2)+'\nДействие пока не выполнено.';$('pending').classList.remove('hidden')}catch(e){status(e.message)}};
+$('confirm').onclick=async()=>{if(!pending)return;try{let event=await request('/v1/demo/actions/confirm','POST',{action_id:pending.action_id,confirmation_token:pending.confirmation_token});status('Учебное действие выполнено: '+event.kind);pending=null;$('pending').classList.add('hidden');await refresh()}catch(e){status(e.message)}};render();
+$('mcpRun').onclick=async()=>{if(!connected){status('Сначала подключите роль.');return}const preset=mcpPresets[$('role').value].find(x=>x[1]===$('mcpTool').value);if(!preset)return;try{let result=await request('/v1/demo/sber-mcp/call','POST',{service:preset[0],tool:preset[1],arguments:preset[2]});$('mcpOutput').textContent=JSON.stringify(result,null,2)}catch(e){status(e.message)}};
+$('mcpPrepare').onclick=async()=>{if(!connected||$('role').value!=='business'){status('Подключите бизнес-роль.');return}const payload={externalId:'demo-ui-'+crypto.randomUUID(),amount:$('mcpAmount').value,payeeInn:'7700000000',payeeAccount:'DEMO-PAYEE-1',purpose:$('mcpPurpose').value};try{mcpPending=await request('/v1/demo/sber-mcp/payments/prepare','POST',{payload});$('mcpPreview').textContent=JSON.stringify(mcpPending.payload,null,2)+'\nПлатёж не подписан и не исполнен.';$('mcpPending').classList.remove('hidden')}catch(e){status(e.message)}};
+$('mcpConfirm').onclick=async()=>{if(!mcpPending)return;try{let result=await request('/v1/demo/sber-mcp/payments/confirm','POST',{action_id:mcpPending.action_id,confirmation_token:mcpPending.confirmation_token});$('mcpOutput').textContent=JSON.stringify(result,null,2);mcpPending=null;$('mcpPending').classList.add('hidden');status('Учебный черновик создан. Денег не списано.')}catch(e){status(e.message)}};
+</script>
+</body>
+</html>

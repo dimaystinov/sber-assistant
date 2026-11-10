@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Кейс чемпионата Сбера — безопасный ИИ-ассистент</title>
+<style>
+  :root{--ink:#08261f;--forest:#061d19;--green:#0bb86b;--lime:#9af7b5;--mint:#dffbed;--paper:#f6fbf7;--muted:#60776d;--violet:#9367f5;--cyan:#4bdcff}
+  *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#061d19;font-family:Arial,"Helvetica Neue",sans-serif;color:var(--ink)}
+  .stage{position:relative;width:100vw;height:100vh;overflow:hidden;isolation:isolate}
+  .slide{position:absolute;inset:0;padding:4.8vw 6vw 5.5vw;opacity:0;visibility:hidden;transform:scale(1.025);transition:opacity .75s ease,transform .9s cubic-bezier(.2,.8,.2,1),visibility .75s;overflow:hidden;background:var(--paper)}
+  .slide.active{opacity:1;visibility:visible;transform:scale(1);z-index:2}
+  .slide.dark{color:#fff;background:radial-gradient(circle at 76% 30%,#0a5a51 0,#092922 32%,#061d19 75%)}
+  .slide.neon{color:#fff;background:linear-gradient(90deg,rgba(2,20,25,.93),rgba(2,20,25,.56) 65%,rgba(2,20,25,.42)),url('assets/neon-rings.png') right center/cover no-repeat}
+  .slide.cover{background:#03171d url('assets/neon-ribbon.png') right center/cover no-repeat;color:#fff}
+  .slide.cover:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(1,15,20,.82),rgba(1,15,20,.18) 77%);pointer-events:none}
+  .slide>*{position:relative}
+  .topline{display:flex;justify-content:space-between;align-items:center;gap:1rem;text-transform:uppercase;letter-spacing:.19em;font-weight:800;font-size:clamp(11px,.95vw,16px);color:var(--green);margin-bottom:5.5vh}
+  .dark .topline,.neon .topline,.cover .topline{color:var(--lime)}
+  h1,h2,h3,p{margin:0}h1{font-size:clamp(56px,6.35vw,116px);line-height:.98;letter-spacing:-.065em;max-width:74%;font-weight:800}h2{font-size:clamp(42px,4.5vw,82px);line-height:1.04;letter-spacing:-.055em;max-width:92%;font-weight:800}h3{font-size:clamp(24px,2.15vw,42px);line-height:1.12;letter-spacing:-.035em;font-weight:750}p,.body{font-size:clamp(19px,1.75vw,32px);line-height:1.36}small,.small{font-size:clamp(12px,1vw,18px);line-height:1.35}
+  .sub{margin-top:4vh;max-width:68%;color:#d8f9e8;font-size:clamp(22px,2vw,38px)}
+  .reveal{opacity:0;transform:translateY(38px);filter:blur(5px);transition:opacity .65s ease,transform .85s cubic-bezier(.2,.8,.2,1),filter .65s ease;transition-delay:var(--d,0ms)}
+  .active .reveal{opacity:1;transform:translateY(0);filter:blur(0)}
+  .eyebrow{font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:var(--green);font-size:clamp(12px,1vw,18px)}
+  .dark .eyebrow,.neon .eyebrow{color:var(--lime)}
+  .accent{color:var(--green)}.dark .accent,.neon .accent{color:var(--lime)}
+  .ruler{height:1px;width:100%;background:linear-gradient(90deg,var(--green),transparent);margin:5vh 0 4vh}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4vw;margin-top:10vh}.grid3 article{border-top:2px solid var(--green);padding-top:2.1vh}.grid3 p{margin-top:2vh;max-width:21vw;color:#536e61}.grid3 strong{font-size:clamp(11px,1.05vw,18px);letter-spacing:.16em;color:var(--green)}
+  .biglist{display:grid;gap:3.3vh;margin-top:6.5vh}.biglist>div{display:flex;gap:2.7vw;align-items:baseline;font-size:clamp(25px,2.55vw,48px);line-height:1.15}.biglist b{font-size:clamp(18px,1.4vw,28px);color:var(--green);font-weight:800}.dark .biglist b{color:var(--lime)}
+  .bottom{position:absolute;left:6vw;right:6vw;bottom:6.2vh;font-size:clamp(15px,1.4vw,26px);font-weight:700;color:var(--green)}.dark .bottom,.neon .bottom{color:var(--lime)}
+  .num{font-size:clamp(100px,17vw,290px);line-height:.83;letter-spacing:-.08em;font-weight:800;color:var(--lime);text-shadow:0 0 65px rgba(48,244,160,.28)}
+  .split{display:grid;grid-template-columns:.8fr 1.2fr;align-items:center;gap:4vw;height:57vh}.split .body{max-width:41vw}
+  .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:1.3vw;margin-top:9vh}.flow>div{padding-top:2.1vh;border-top:2px solid var(--green)}.flow b{display:block;color:var(--green);font-size:clamp(12px,1vw,19px);margin-bottom:1.6vh}.flow span{font-size:clamp(18px,1.65vw,31px);line-height:1.19}.flow .emphasis{border-color:var(--violet)}.flow .emphasis b{color:var(--violet)}
+  .source-stack{display:grid;grid-template-columns:1fr 1fr;gap:4vw 6vw;margin-top:8vh}.source-stack>div{border-top:1px solid #a8d5bf;padding-top:1.5vh}.source-stack b{display:block;color:var(--green);font-size:clamp(13px,1.1vw,20px);margin-bottom:1vh}.source-stack span{font-size:clamp(23px,2vw,38px);line-height:1.17}
+  .chart{margin-top:5vh;width:91%;display:grid;gap:1.55vh}.barrow{display:grid;grid-template-columns:14vw 1fr 4vw;align-items:center;gap:1.5vw;font-size:clamp(15px,1.3vw,23px)}.track{height:clamp(14px,1.65vw,28px);background:#dceee4;border-radius:100px;overflow:hidden}.bar{height:100%;border-radius:100px;background:linear-gradient(90deg,#03a75e,#45e9a4);width:0;transition:width 1.5s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i)*105ms + 280ms);box-shadow:0 0 22px rgba(6,208,121,.25)}.active .bar{width:var(--w)}.barrow b{font-weight:800}
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:6vw;margin-top:7vh}.duo article{border-top:2px solid currentColor;padding-top:2vh}.duo p{margin-top:2vh;color:#cbe9df}.duo h3{color:var(--lime)}
+  .dark .glow{position:absolute;right:-12vw;bottom:-24vw;width:56vw;height:56vw;border-radius:50%;background:radial-gradient(circle,rgba(10,247,141,.22),rgba(3,217,235,.06) 35%,transparent 65%);filter:blur(15px);animation:breathe 6s ease-in-out infinite;pointer-events:none}
+  .neon .glow{background:radial-gradient(circle,rgba(106,82,255,.35),rgba(3,217,235,.12) 38%,transparent 65%)}
+  @keyframes breathe{50%{transform:scale(1.18);opacity:.55}}
+  .footnote{position:absolute;bottom:6vh;left:6vw;right:8vw;color:var(--muted);font-size:clamp(13px,1.1vw,19px)}.dark .footnote,.neon .footnote{color:#a8cabc}
+  .controls{position:fixed;z-index:20;bottom:18px;right:26px;display:flex;gap:10px;align-items:center;color:#d4f4e5;font-size:13px;background:rgba(2,24,22,.7);padding:7px 9px;border:1px solid rgba(185,244,200,.15);border-radius:999px;backdrop-filter:blur(18px)}button{cursor:pointer;border:0;border-radius:100px;color:#fff;background:rgba(255,255,255,.15);width:30px;height:30px;font-size:18px}button:hover{background:#0bb86b}.progress{position:fixed;z-index:20;bottom:0;left:0;height:4px;width:0;background:linear-gradient(90deg,#12da7d,#4bdcff,#9367f5);transition:width .65s ease}
+  .notes{display:none;position:fixed;z-index:22;right:2vw;top:2vh;width:min(34vw,530px);max-height:75vh;overflow:auto;padding:24px;background:rgba(1,20,21,.94);color:#e7fff2;border:1px solid #4bdcff;border-radius:20px;box-shadow:0 20px 70px #0008;font-size:16px;line-height:1.45}.notes.open{display:block}.notes h4{margin:0 0 10px;color:var(--lime)}
+  @media(max-width:800px){.slide{padding:7vw}.topline{margin-bottom:3vh}h1{max-width:95%;font-size:10vw}h2{font-size:7vw}.sub{max-width:90%}.grid3{gap:2vw}.grid3 p{max-width:none}.flow{gap:1vw}.barrow{grid-template-columns:22vw 1fr 7vw}.footnote{bottom:9vh}.bottom{bottom:9vh}}
+  @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{filter:none;transform:none}.active .bar{width:var(--w)}}
+</style>
+</head>
+<body>
+<main class="stage" aria-label="Презентация кейса">
+  <section class="slide cover active" data-note="Представьте человека, который за день становится клиентом, предпринимателем и сотрудником. В банке важно, откуда взят факт, кому разрешено его видеть и что произойдёт при ошибке.">
+    <div class="topline reveal"><span>Кейс чемпионата Сбера</span><span>Независимый прототип · 2026</span></div>
+    <h1 class="reveal" style="--d:130ms">Ассистент,<br>который <span class="accent">помогает</span><br>и проверяет.</h1>
+    <p class="sub reveal" style="--d:330ms">Три роли. Проверяемые знания.<br>Контроль каждого действия.</p>
+  </section>
+  <section class="slide" data-note="Языковая модель может говорить уверенно и ошибаться. В банке опасны выдуманные условия, неверный регламент и действие без полномочий.">
+    <div class="topline reveal"><span>01 / проблема</span><span>Цена ошибки</span></div>
+    <h2 class="reveal" style="--d:100ms">Убедительный ответ<br>может быть <span class="accent">неверным</span>.</h2>
+    <div class="biglist"><div class="reveal" style="--d:240ms"><b>01</b><span>Неверный факт о продукте</span></div><div class="reveal" style="--d:360ms"><b>02</b><span>Выдуманный внутренний регламент</span></div><div class="reveal" style="--d:480ms"><b>03</b><span>Действие без полномочий</span></div></div>
+    <div class="bottom reveal" style="--d:630ms">Проверка должна жить в архитектуре, а не только в промпте.</div>
+  </section>
+  <section class="slide" data-note="Клиенту нужен проверенный следующий шаг. Предпринимателю — расчёт и конкретное решение. Сотруднику — актуальная процедура и рабочее действие. Контексты не смешиваются.">
+    <div class="topline reveal"><span>02 / кому помогает</span><span>Три роли</span></div><h2 class="reveal" style="--d:100ms">Один человек.<br><span class="accent">Три полезных результата.</span></h2>
+    <div class="grid3"><article class="reveal" style="--d:240ms"><strong>КЛИЕНТ</strong><h3>Покупка<br>без выдумок</h3><p>Учебный остаток, товар, подготовка корзины.</p></article><article class="reveal" style="--d:360ms"><strong>ПРЕДПРИНИМАТЕЛЬ</strong><h3>Решение<br>на числах</h3><p>Кассовый разрыв и рекламный шаг.</p></article><article class="reveal" style="--d:480ms"><strong>СОТРУДНИК</strong><h3>Процедура<br>с источником</h3><p>Учебный регламент и задача.</p></article></div>
+  </section>
+  <section class="slide neon" data-note="В прототипе запрос проходит роль, доступный источник и проверку. Изменяющее действие всегда отделено и требует подтверждения. Все данные учебные.">
+    <div class="glow"></div><div class="topline reveal"><span>03 / демонстрация</span><span>Работающий маршрут</span></div><h2 class="reveal" style="--d:100ms">От вопроса<br>к <span class="accent">полезному действию</span>.</h2>
+    <div class="flow"><div class="reveal" style="--d:250ms"><b>01 / роль</b><span>Кто<br>спрашивает?</span></div><div class="reveal" style="--d:340ms"><b>02 / доступ</b><span>Что ему<br>разрешено?</span></div><div class="reveal" style="--d:430ms"><b>03 / знание</b><span>Есть ли<br>основание?</span></div><div class="reveal emphasis" style="--d:520ms"><b>04 / критик</b><span>Верный ли<br>ответ?</span></div><div class="reveal" style="--d:610ms"><b>05 / действие</b><span>Подтверждено<br>ли оно?</span></div></div>
+    <div class="bottom reveal" style="--d:730ms">Нет основания или права — безопасная остановка.</div>
+  </section>
+  <section class="slide" data-note="LangGraph задаёт управляемый путь. Учебные данные и расчёт идут через ролевой MCP и серверный broker. GigaChat генерирует и проверяет; изменяющее действие подтверждает человек.">
+    <div class="topline reveal"><span>04 / harness</span><span>Управляемый граф</span></div><h2 class="reveal" style="--d:100ms">Модель пишет.<br><span class="accent">Контур решает.</span></h2>
+    <div class="source-stack"><div class="reveal" style="--d:210ms"><b>01 · ВХОД</b><span>Личность, роль, согласие</span></div><div class="reveal" style="--d:310ms"><b>02 · ОСНОВАНИЕ</b><span>Ролевой MCP, источник и версия</span></div><div class="reveal" style="--d:410ms"><b>03 · ПРОВЕРКА</b><span>Кодовый gate, Decimal, GigaChat-критик</span></div><div class="reveal" style="--d:510ms"><b>04 · ИСПОЛНЕНИЕ</b><span>Broker, подтверждение, журнал</span></div></div>
+    <div class="footnote reveal" style="--d:650ms">В текущем прототипе личность и журнал действий демонстрационные.</div>
+  </section>
+  <section class="slide" data-note="Сейчас это учебная база знаний. Для банка нужны утверждённые документы с доступом, датой, версией, проверкой конфликта и связью цитаты с каждым существенным утверждением.">
+    <div class="topline reveal"><span>05 / знания</span><span>RAG с происхождением</span></div><h2 class="reveal" style="--d:100ms">Ответ опирается на<br><span class="accent">допустимую версию</span>.</h2>
+    <div class="biglist"><div class="reveal" style="--d:220ms"><b>01</b><span>Роль и право до поиска</span></div><div class="reveal" style="--d:330ms"><b>02</b><span>Дата действия, владелец, утверждение</span></div><div class="reveal" style="--d:440ms"><b>03</b><span>Цитата для конкретного утверждения</span></div></div>
+    <div class="bottom reveal" style="--d:600ms">Внутренних регламентов Сбера в прототипе нет.</div>
+  </section>
+  <section class="slide" data-note="Шесть моделей и шесть одинаковых синтетических запросов. Это маленький пилот. Скорость не доказывает точность; модель маршрутизируем после оценки на задачах каждой роли.">
+    <div class="topline reveal"><span>06 / модели Сбера</span><span>Синтетический пилот</span></div><h2 class="reveal" style="--d:100ms">Скорость —<br><span class="accent">лишь один критерий.</span></h2>
+    <p class="small reveal" style="--d:170ms;margin-top:2vh;color:var(--muted)">Медиана времени ответа, секунды. 6 запросов на модель.</p>
+    <div class="chart"><div class="barrow"><span>3-Lightning</span><div class="track"><div class="bar" style="--w:20.5%;--i:0"></div></div><b>1,02</b></div><div class="barrow"><span>2</span><div class="track"><div class="bar" style="--w:26.9%;--i:1"></div></div><b>1,34</b></div><div class="barrow"><span>3-Pro</span><div class="track"><div class="bar" style="--w:40.6%;--i:2"></div></div><b>2,02</b></div><div class="barrow"><span>2-Max</span><div class="track"><div class="bar" style="--w:48.6%;--i:3"></div></div><b>2,42</b></div><div class="barrow"><span>2-Pro</span><div class="track"><div class="bar" style="--w:75.9%;--i:4"></div></div><b>3,78</b></div><div class="barrow"><span>3-Ultra</span><div class="track"><div class="bar" style="--w:100%;--i:5"></div></div><b>4,98</b></div></div>
+    <div class="footnote">Небольшой технический замер. Не производственный рейтинг моделей.</div>
+  </section>
+  <section class="slide neon" data-note="Критик добавляет независимый сигнал, но не гарантирует отсутствие ошибок. Доступ, деньги и подтверждение проверяет код. При отказе критика ответ скрывается.">
+    <div class="glow"></div><div class="topline reveal"><span>07 / безопасность</span><span>Чистый взгляд критика</span></div><h2 class="reveal" style="--d:100ms">Критик проверяет.<br><span class="accent">Код запрещает.</span></h2>
+    <div class="duo"><article class="reveal" style="--d:260ms"><h3>GigaChat-критик</h3><p>Ищет противоречия и неподтверждённые обещания в черновике ответа.</p></article><article class="reveal" style="--d:420ms"><h3>Серверный broker</h3><p>Проверяет роль, операцию и подтверждение до изменения данных.</p></article></div>
+    <div class="bottom reveal" style="--d:620ms">Ни один критик не гарантирует ноль ошибок.</div>
+  </section>
+  <section class="slide" data-note="Правовые нормы должны иметь официальную редакцию на нужную дату. Внутренние регламенты требуют владельца и доступа. КонсультантПлюс нельзя копировать в RAG без прав. Профессиональные советы требуют квалифицированного контроля.">
+    <div class="topline reveal"><span>08 / право</span><span>Граница доверия</span></div><h2 class="reveal" style="--d:100ms">Регламент — это<br><span class="accent">управляемый источник</span>.</h2>
+    <div class="source-stack"><div class="reveal" style="--d:230ms"><b>ЗАКОН</b><span>Официальная редакция и дата</span></div><div class="reveal" style="--d:340ms"><b>РЕГЛАМЕНТ</b><span>Владелец, доступ, статус</span></div><div class="reveal" style="--d:450ms"><b>СОВЕТ</b><span>Квалифицированный контроль</span></div><div class="reveal" style="--d:560ms"><b>ЛИЦЕНЗИЯ</b><span>Право на использование базы</span></div></div>
+    <div class="footnote">Публичные документы не подменяют внутренние процедуры банка.</div>
+  </section>
+  <section class="slide dark" data-note="Два массива по 3 600 учебных эпизодов: 23 основных и 50 расширенных шаблонов. 81 автоматический тест проверяет код и MCP. Ни один показатель не является оценкой надёжности в реальном банке.">
+    <div class="glow"></div><div class="topline reveal"><span>09 / проверка</span><span>Факт вместо обещания</span></div><h2 class="reveal" style="--d:100ms">Прототип<br>уже проверяется кодом.</h2>
+    <div class="split"><div class="num reveal" style="--d:230ms">3 600</div><p class="body reveal" style="--d:430ms">учебных эпизодов в расширенной матрице: по 1 200 на роль, 50 типов сценариев.<br><br><span style="color:var(--lime)">Полевую точность и пользу ещё надо измерить.</span></p></div>
+  </section>
+  <section class="slide" data-note="К банковскому пилоту ведут четыре шага: SberID и права, утверждённые документы, ИБ и правовая экспертиза, затем оценка на реальных разрешённых кейсах. Go/no-go утверждают владельцы риска.">
+    <div class="topline reveal"><span>10 / пилот</span><span>План запуска</span></div><h2 class="reveal" style="--d:100ms">До реального банка —<br><span class="accent">четыре обязательных шага.</span></h2>
+    <div class="biglist"><div class="reveal" style="--d:220ms"><b>01</b><span>SberID и права на каждое действие</span></div><div class="reveal" style="--d:330ms"><b>02</b><span>Утверждённые документы с версиями</span></div><div class="reveal" style="--d:440ms"><b>03</b><span>Правовая и ИБ-экспертиза</span></div><div class="reveal" style="--d:550ms"><b>04</b><span>Пилот с критериями остановки</span></div></div>
+  </section>
+  <section class="slide cover" data-note="Финал. Мы показываем работающий маршрут от вопроса до полезного действия. Источник, расчёт, доступ и подтверждение разделены. Сейчас продемонстрируем три роли.">
+    <div class="topline reveal"><span>Итог</span><span>Демонстрация и вопросы</span></div><h1 class="reveal" style="--d:130ms">Полезное<br>действие.<br><span class="accent">Проверенное</span><br>основание.</h1><p class="sub reveal" style="--d:340ms">Когда основания или права не хватает,<br>ассистент останавливается.</p>
+  </section>
+</main>
+<aside id="notes" class="notes" aria-live="polite"><h4>Заметки спикера</h4><div id="notesText"></div></aside>
+<div class="controls"><button id="prev" aria-label="Предыдущий слайд">‹</button><span id="counter">01 / 12</span><button id="next" aria-label="Следующий слайд">›</button></div><div id="progress" class="progress"></div>
+<script>
+  const slides=[...document.querySelectorAll('.slide')],counter=document.getElementById('counter'),progress=document.getElementById('progress'),notes=document.getElementById('notes'),notesText=document.getElementById('notesText');let index=0;
+  function show(i){const next=Math.max(0,Math.min(slides.length-1,i));slides[index].classList.remove('active');index=next;slides[index].classList.add('active');counter.textContent=String(index+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');progress.style.width=(100*(index+1)/slides.length)+'%';notesText.textContent=slides[index].dataset.note||'';location.hash='slide-'+(index+1)}
+  document.getElementById('prev').onclick=()=>show(index-1);document.getElementById('next').onclick=()=>show(index+1);window.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(index+1)}if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();show(index-1)}if(e.key.toLowerCase()==='n'){notes.classList.toggle('open')}});let touchX=0;window.addEventListener('touchstart',e=>{touchX=e.changedTouches[0].screenX},{passive:true});window.addEventListener('touchend',e=>{const d=e.changedTouches[0].screenX-touchX;if(Math.abs(d)>60)show(index+(d<0?1:-1))},{passive:true});const initial=Number(location.hash.replace('#slide-',''));if(initial>0)show(initial-1);else show(0);
+</script>
+</body>
+</html>

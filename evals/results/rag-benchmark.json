@@ -1,0 +1,410 @@
+{
+  "lexical": {
+    "exact": {
+      "total": 10,
+      "hit_at_1": 10,
+      "hit_at_3": 10
+    },
+    "paraphrase": {
+      "total": 10,
+      "hit_at_1": 0,
+      "hit_at_3": 0
+    },
+    "rows": [
+      {
+        "case_id": "cart_exact",
+        "role": "retail",
+        "stratum": "exact",
+        "query": "Добавить товар в корзину",
+        "gold_source_id": "demo-retail-cart",
+        "retrieved": [
+          "demo-retail-cart"
+        ],
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "booking_exact",
+        "role": "retail",
+        "stratum": "exact",
+        "query": "Забронировать встречу",
+        "gold_source_id": "demo-retail-booking",
+        "retrieved": [
+          "demo-retail-booking"
+        ],
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "competitors_exact",
+        "role": "business",
+        "stratum": "exact",
+        "query": "Сравнить конкурентов",
+        "gold_source_id": "demo-business-competitors",
+        "retrieved": [
+          "demo-business-competitors"
+        ],
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "ads_exact",
+        "role": "business",
+        "stratum": "exact",
+        "query": "Проверить рекламу",
+        "gold_source_id": "demo-business-ads",
+        "retrieved": [
+          "demo-business-ads"
+        ],
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "vacation_exact",
+        "role": "employee",
+        "stratum": "exact",
+        "query": "Как подать отпуск?",
+        "gold_source_id": "demo-employee-vacation",
+        "retrieved": [
+          "demo-employee-vacation"
+        ],
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "learning_exact",
+        "role": "employee",
+        "stratum": "exact",
+        "query": "Выбрать курс обучения",
+        "gold_source_id": "demo-employee-learning",
+        "retrieved": [
+          "demo-employee-learning"
+        ],
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "it_exact",
+        "role": "employee",
+        "stratum": "exact",
+        "query": "Нет VPN доступа",
+        "gold_source_id": "demo-employee-it",
+        "retrieved": [
+          "demo-employee-it"
+        ],
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "expenses_exact",
+        "role": "employee",
+        "stratum": "exact",
+        "query": "Компенсация расходов",
+        "gold_source_id": "demo-employee-expenses",
+        "retrieved": [
+          "demo-employee-expenses"
+        ],
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "tasks_exact",
+        "role": "employee",
+        "stratum": "exact",
+        "query": "Назначить задачу",
+        "gold_source_id": "demo-employee-tasks",
+        "retrieved": [
+          "demo-employee-tasks"
+        ],
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "gifts_exact",
+        "role": "employee",
+        "stratum": "exact",
+        "query": "Поставщик предложил подарок",
+        "gold_source_id": "demo-employee-gifts",
+        "retrieved": [
+          "demo-employee-gifts"
+        ],
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "cart_paraphrase",
+        "role": "retail",
+        "stratum": "paraphrase",
+        "query": "Отложить наушники к заказу",
+        "gold_source_id": "demo-retail-cart",
+        "retrieved": [],
+        "hit_at_1": 0,
+        "hit_at_3": 0,
+        "role_filtered": true
+      },
+      {
+        "case_id": "booking_paraphrase",
+        "role": "retail",
+        "stratum": "paraphrase",
+        "query": "Занять время для консультации",
+        "gold_source_id": "demo-retail-booking",
+        "retrieved": [],
+        "hit_at_1": 0,
+        "hit_at_3": 0,
+        "role_filtered": true
+      },
+      {
+        "case_id": "competitors_paraphrase",
+        "role": "business",
+        "stratum": "paraphrase",
+        "query": "Кто ещё продаёт похожие устройства?",
+        "gold_source_id": "demo-business-competitors",
+        "retrieved": [],
+        "hit_at_1": 0,
+        "hit_at_3": 0,
+        "role_filtered": true
+      },
+      {
+        "case_id": "ads_paraphrase",
+        "role": "business",
+        "stratum": "paraphrase",
+        "query": "Повысить отдачу от объявлений",
+        "gold_source_id": "demo-business-ads",
+        "retrieved": [],
+        "hit_at_1": 0,
+        "hit_at_3": 0,
+        "role_filtered": true
+      },
+      {
+        "case_id": "vacation_paraphrase",
+        "role": "employee",
+        "stratum": "paraphrase",
+        "query": "Согласовать ежегодный отдых",
+        "gold_source_id": "demo-employee-vacation",
+        "retrieved": [],
+        "hit_at_1": 0,
+        "hit_at_3": 0,
+        "role_filtered": true
+      },
+      {
+        "case_id": "learning_paraphrase",
+        "role": "employee",
+        "stratum": "paraphrase",
+        "query": "Повысить квалификацию",
+        "gold_source_id": "demo-employee-learning",
+        "retrieved": [],
+        "hit_at_1": 0,
+        "hit_at_3": 0,
+        "role_filtered": true
+      },
+      {
+        "case_id": "it_paraphrase",
+        "role": "employee",
+        "stratum": "paraphrase",
+        "query": "Не могу войти в корпоративную сеть",
+        "gold_source_id": "demo-employee-it",
+        "retrieved": [],
+        "hit_at_1": 0,
+        "hit_at_3": 0,
+        "role_filtered": true
+      },
+      {
+        "case_id": "expenses_paraphrase",
+        "role": "employee",
+        "stratum": "paraphrase",
+        "query": "Вернуть деньги за командировку",
+        "gold_source_id": "demo-employee-expenses",
+        "retrieved": [],
+        "hit_at_1": 0,
+        "hit_at_3": 0,
+        "role_filtered": true
+      },
+      {
+        "case_id": "tasks_paraphrase",
+        "role": "employee",
+        "stratum": "paraphrase",
+        "query": "Поручить работу коллеге",
+        "gold_source_id": "demo-employee-tasks",
+        "retrieved": [],
+        "hit_at_1": 0,
+        "hit_at_3": 0,
+        "role_filtered": true
+      },
+      {
+        "case_id": "gifts_paraphrase",
+        "role": "employee",
+        "stratum": "paraphrase",
+        "query": "Контрагент вручает сувенир",
+        "gold_source_id": "demo-employee-gifts",
+        "retrieved": [],
+        "hit_at_1": 0,
+        "hit_at_3": 0,
+        "role_filtered": true
+      }
+    ]
+  },
+  "GigaChat-3-Lightning-router": {
+    "exact": {
+      "total": 0,
+      "hit_at_1": 0,
+      "hit_at_3": 0
+    },
+    "paraphrase": {
+      "total": 10,
+      "hit_at_1": 10,
+      "hit_at_3": 10
+    },
+    "rows": [
+      {
+        "case_id": "cart_paraphrase",
+        "role": "retail",
+        "stratum": "paraphrase",
+        "query": "Отложить наушники к заказу",
+        "gold_source_id": "demo-retail-cart",
+        "retrieved": [
+          "demo-retail-cart"
+        ],
+        "raw_selection": "demo-retail-cart",
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "booking_paraphrase",
+        "role": "retail",
+        "stratum": "paraphrase",
+        "query": "Занять время для консультации",
+        "gold_source_id": "demo-retail-booking",
+        "retrieved": [
+          "demo-retail-booking"
+        ],
+        "raw_selection": "demo-retail-booking",
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "competitors_paraphrase",
+        "role": "business",
+        "stratum": "paraphrase",
+        "query": "Кто ещё продаёт похожие устройства?",
+        "gold_source_id": "demo-business-competitors",
+        "retrieved": [
+          "demo-business-competitors"
+        ],
+        "raw_selection": "demo-business-competitors",
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "ads_paraphrase",
+        "role": "business",
+        "stratum": "paraphrase",
+        "query": "Повысить отдачу от объявлений",
+        "gold_source_id": "demo-business-ads",
+        "retrieved": [
+          "demo-business-ads"
+        ],
+        "raw_selection": "demo-business-ads",
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "vacation_paraphrase",
+        "role": "employee",
+        "stratum": "paraphrase",
+        "query": "Согласовать ежегодный отдых",
+        "gold_source_id": "demo-employee-vacation",
+        "retrieved": [
+          "demo-employee-vacation"
+        ],
+        "raw_selection": "demo-employee-vacation",
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "learning_paraphrase",
+        "role": "employee",
+        "stratum": "paraphrase",
+        "query": "Повысить квалификацию",
+        "gold_source_id": "demo-employee-learning",
+        "retrieved": [
+          "demo-employee-learning"
+        ],
+        "raw_selection": "demo-employee-learning",
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "it_paraphrase",
+        "role": "employee",
+        "stratum": "paraphrase",
+        "query": "Не могу войти в корпоративную сеть",
+        "gold_source_id": "demo-employee-it",
+        "retrieved": [
+          "demo-employee-it"
+        ],
+        "raw_selection": "demo-employee-it",
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "expenses_paraphrase",
+        "role": "employee",
+        "stratum": "paraphrase",
+        "query": "Вернуть деньги за командировку",
+        "gold_source_id": "demo-employee-expenses",
+        "retrieved": [
+          "demo-employee-expenses"
+        ],
+        "raw_selection": "demo-employee-expenses",
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "tasks_paraphrase",
+        "role": "employee",
+        "stratum": "paraphrase",
+        "query": "Поручить работу коллеге",
+        "gold_source_id": "demo-employee-tasks",
+        "retrieved": [
+          "demo-employee-tasks"
+        ],
+        "raw_selection": "demo-employee-tasks",
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      },
+      {
+        "case_id": "gifts_paraphrase",
+        "role": "employee",
+        "stratum": "paraphrase",
+        "query": "Контрагент вручает сувенир",
+        "gold_source_id": "demo-employee-gifts",
+        "retrieved": [
+          "demo-employee-gifts"
+        ],
+        "raw_selection": "demo-employee-gifts",
+        "hit_at_1": 1,
+        "hit_at_3": 1,
+        "role_filtered": true
+      }
+    ]
+  }
+}

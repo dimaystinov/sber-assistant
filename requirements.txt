@@ -1,0 +1,19 @@
+# Универсальный помощник Сбера — зависимости прототипа
+fastapi==0.120.0  # совместимо с MCP SDK 2.x и Starlette 0.48
+starlette==0.48.0
+sse-starlette==3.0.0
+mcp==2.3.0
+httpx2>=2.16,<3  # HTTP transport for the official MCP sandbox
+cryptography>=46,<47  # load the sandbox client PKCS#12 identity
+uvicorn[standard]>=0.27
+pydantic>=2.6
+redis>=5.0          # боевой store сессий
+asyncpg>=0.29       # боевой PostgreSQL
+pgvector>=0.2.4     # эмбеддинги контекста
+httpx>=0.27         # GigaChat API / интеграции
+langgraph==1.2.20   # версия, проверенная тестами прототипа
+langchain-gigachat==0.5.1  # стабильный адаптер GigaChat, проверенный здесь
+python-jose[cryptography]>=3.3
+tenacity>=8.2
+pytest>=8.0
+pytest-asyncio>=0.23

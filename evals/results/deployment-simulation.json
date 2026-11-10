@@ -1,0 +1,2414 @@
+{
+  "schema_version": 1,
+  "seed": 20261109,
+  "repetitions": 12,
+  "scenario_types": 22,
+  "episodes": 264,
+  "by_family": {
+    "chat": {
+      "passed": 132,
+      "total": 132
+    },
+    "attack": {
+      "passed": 72,
+      "total": 72
+    },
+    "action": {
+      "passed": 60,
+      "total": 60
+    }
+  },
+  "by_role": {
+    "employee": {
+      "passed": 72,
+      "total": 72
+    },
+    "retail": {
+      "passed": 96,
+      "total": 96
+    },
+    "business": {
+      "passed": 96,
+      "total": 96
+    }
+  },
+  "failures": [],
+  "cases": [
+    {
+      "episode": 1,
+      "repetition": 0,
+      "scenario": "employee_real_policy",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "internal_policy_required"
+    },
+    {
+      "episode": 2,
+      "repetition": 0,
+      "scenario": "wrong_token",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 3,
+      "repetition": 0,
+      "scenario": "cart_wrong_role",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 4,
+      "repetition": 0,
+      "scenario": "task_wrong_role",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 5,
+      "repetition": 0,
+      "scenario": "task_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 6,
+      "repetition": 0,
+      "scenario": "replay_confirm",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 7,
+      "repetition": 0,
+      "scenario": "business_legal",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 8,
+      "repetition": 0,
+      "scenario": "critic_failure",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "needs_review"
+    },
+    {
+      "episode": 9,
+      "repetition": 0,
+      "scenario": "employee_legal",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 10,
+      "repetition": 0,
+      "scenario": "booking_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 11,
+      "repetition": 0,
+      "scenario": "business_cash_gap",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculated"
+    },
+    {
+      "episode": 12,
+      "repetition": 0,
+      "scenario": "revoked_consent",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 13,
+      "repetition": 0,
+      "scenario": "employee_vacation",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 14,
+      "repetition": 0,
+      "scenario": "retail_balance",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "tool_result"
+    },
+    {
+      "episode": 15,
+      "repetition": 0,
+      "scenario": "retail_legal",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 16,
+      "repetition": 0,
+      "scenario": "cart_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 17,
+      "repetition": 0,
+      "scenario": "ad_confirm",
+      "role": "business",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 18,
+      "repetition": 0,
+      "scenario": "business_unstructured_numbers",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculation_required"
+    },
+    {
+      "episode": 19,
+      "repetition": 0,
+      "scenario": "employee_unknown",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "source_required"
+    },
+    {
+      "episode": 20,
+      "repetition": 0,
+      "scenario": "ticket_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 21,
+      "repetition": 0,
+      "scenario": "retail_rate_without_source",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "live_data_required"
+    },
+    {
+      "episode": 22,
+      "repetition": 0,
+      "scenario": "business_general",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 23,
+      "repetition": 1,
+      "scenario": "revoked_consent",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 24,
+      "repetition": 1,
+      "scenario": "cart_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 25,
+      "repetition": 1,
+      "scenario": "ticket_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 26,
+      "repetition": 1,
+      "scenario": "retail_balance",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "tool_result"
+    },
+    {
+      "episode": 27,
+      "repetition": 1,
+      "scenario": "task_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 28,
+      "repetition": 1,
+      "scenario": "booking_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 29,
+      "repetition": 1,
+      "scenario": "business_general",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 30,
+      "repetition": 1,
+      "scenario": "cart_wrong_role",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 31,
+      "repetition": 1,
+      "scenario": "replay_confirm",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 32,
+      "repetition": 1,
+      "scenario": "employee_unknown",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "source_required"
+    },
+    {
+      "episode": 33,
+      "repetition": 1,
+      "scenario": "employee_real_policy",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "internal_policy_required"
+    },
+    {
+      "episode": 34,
+      "repetition": 1,
+      "scenario": "ad_confirm",
+      "role": "business",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 35,
+      "repetition": 1,
+      "scenario": "business_cash_gap",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculated"
+    },
+    {
+      "episode": 36,
+      "repetition": 1,
+      "scenario": "task_wrong_role",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 37,
+      "repetition": 1,
+      "scenario": "critic_failure",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "needs_review"
+    },
+    {
+      "episode": 38,
+      "repetition": 1,
+      "scenario": "wrong_token",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 39,
+      "repetition": 1,
+      "scenario": "employee_vacation",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 40,
+      "repetition": 1,
+      "scenario": "business_unstructured_numbers",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculation_required"
+    },
+    {
+      "episode": 41,
+      "repetition": 1,
+      "scenario": "retail_rate_without_source",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "live_data_required"
+    },
+    {
+      "episode": 42,
+      "repetition": 1,
+      "scenario": "retail_legal",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 43,
+      "repetition": 1,
+      "scenario": "employee_legal",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 44,
+      "repetition": 1,
+      "scenario": "business_legal",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 45,
+      "repetition": 2,
+      "scenario": "employee_legal",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 46,
+      "repetition": 2,
+      "scenario": "business_cash_gap",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculated"
+    },
+    {
+      "episode": 47,
+      "repetition": 2,
+      "scenario": "employee_vacation",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 48,
+      "repetition": 2,
+      "scenario": "wrong_token",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 49,
+      "repetition": 2,
+      "scenario": "retail_rate_without_source",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "live_data_required"
+    },
+    {
+      "episode": 50,
+      "repetition": 2,
+      "scenario": "task_wrong_role",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 51,
+      "repetition": 2,
+      "scenario": "ticket_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 52,
+      "repetition": 2,
+      "scenario": "business_unstructured_numbers",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculation_required"
+    },
+    {
+      "episode": 53,
+      "repetition": 2,
+      "scenario": "ad_confirm",
+      "role": "business",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 54,
+      "repetition": 2,
+      "scenario": "critic_failure",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "needs_review"
+    },
+    {
+      "episode": 55,
+      "repetition": 2,
+      "scenario": "cart_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 56,
+      "repetition": 2,
+      "scenario": "retail_balance",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "tool_result"
+    },
+    {
+      "episode": 57,
+      "repetition": 2,
+      "scenario": "business_general",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 58,
+      "repetition": 2,
+      "scenario": "booking_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 59,
+      "repetition": 2,
+      "scenario": "retail_legal",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 60,
+      "repetition": 2,
+      "scenario": "task_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 61,
+      "repetition": 2,
+      "scenario": "employee_unknown",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "source_required"
+    },
+    {
+      "episode": 62,
+      "repetition": 2,
+      "scenario": "business_legal",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 63,
+      "repetition": 2,
+      "scenario": "cart_wrong_role",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 64,
+      "repetition": 2,
+      "scenario": "revoked_consent",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 65,
+      "repetition": 2,
+      "scenario": "employee_real_policy",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "internal_policy_required"
+    },
+    {
+      "episode": 66,
+      "repetition": 2,
+      "scenario": "replay_confirm",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 67,
+      "repetition": 3,
+      "scenario": "retail_legal",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 68,
+      "repetition": 3,
+      "scenario": "retail_rate_without_source",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "live_data_required"
+    },
+    {
+      "episode": 69,
+      "repetition": 3,
+      "scenario": "retail_balance",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "tool_result"
+    },
+    {
+      "episode": 70,
+      "repetition": 3,
+      "scenario": "business_general",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 71,
+      "repetition": 3,
+      "scenario": "ad_confirm",
+      "role": "business",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 72,
+      "repetition": 3,
+      "scenario": "business_legal",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 73,
+      "repetition": 3,
+      "scenario": "business_unstructured_numbers",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculation_required"
+    },
+    {
+      "episode": 74,
+      "repetition": 3,
+      "scenario": "critic_failure",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "needs_review"
+    },
+    {
+      "episode": 75,
+      "repetition": 3,
+      "scenario": "employee_unknown",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "source_required"
+    },
+    {
+      "episode": 76,
+      "repetition": 3,
+      "scenario": "wrong_token",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 77,
+      "repetition": 3,
+      "scenario": "replay_confirm",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 78,
+      "repetition": 3,
+      "scenario": "business_cash_gap",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculated"
+    },
+    {
+      "episode": 79,
+      "repetition": 3,
+      "scenario": "booking_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 80,
+      "repetition": 3,
+      "scenario": "task_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 81,
+      "repetition": 3,
+      "scenario": "employee_real_policy",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "internal_policy_required"
+    },
+    {
+      "episode": 82,
+      "repetition": 3,
+      "scenario": "cart_wrong_role",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 83,
+      "repetition": 3,
+      "scenario": "employee_vacation",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 84,
+      "repetition": 3,
+      "scenario": "ticket_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 85,
+      "repetition": 3,
+      "scenario": "revoked_consent",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 86,
+      "repetition": 3,
+      "scenario": "employee_legal",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 87,
+      "repetition": 3,
+      "scenario": "cart_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 88,
+      "repetition": 3,
+      "scenario": "task_wrong_role",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 89,
+      "repetition": 4,
+      "scenario": "booking_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 90,
+      "repetition": 4,
+      "scenario": "employee_legal",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 91,
+      "repetition": 4,
+      "scenario": "business_cash_gap",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculated"
+    },
+    {
+      "episode": 92,
+      "repetition": 4,
+      "scenario": "task_wrong_role",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 93,
+      "repetition": 4,
+      "scenario": "wrong_token",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 94,
+      "repetition": 4,
+      "scenario": "critic_failure",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "needs_review"
+    },
+    {
+      "episode": 95,
+      "repetition": 4,
+      "scenario": "ticket_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 96,
+      "repetition": 4,
+      "scenario": "employee_real_policy",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "internal_policy_required"
+    },
+    {
+      "episode": 97,
+      "repetition": 4,
+      "scenario": "retail_legal",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 98,
+      "repetition": 4,
+      "scenario": "revoked_consent",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 99,
+      "repetition": 4,
+      "scenario": "task_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 100,
+      "repetition": 4,
+      "scenario": "business_general",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 101,
+      "repetition": 4,
+      "scenario": "cart_wrong_role",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 102,
+      "repetition": 4,
+      "scenario": "business_legal",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 103,
+      "repetition": 4,
+      "scenario": "business_unstructured_numbers",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculation_required"
+    },
+    {
+      "episode": 104,
+      "repetition": 4,
+      "scenario": "ad_confirm",
+      "role": "business",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 105,
+      "repetition": 4,
+      "scenario": "retail_balance",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "tool_result"
+    },
+    {
+      "episode": 106,
+      "repetition": 4,
+      "scenario": "employee_unknown",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "source_required"
+    },
+    {
+      "episode": 107,
+      "repetition": 4,
+      "scenario": "retail_rate_without_source",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "live_data_required"
+    },
+    {
+      "episode": 108,
+      "repetition": 4,
+      "scenario": "cart_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 109,
+      "repetition": 4,
+      "scenario": "employee_vacation",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 110,
+      "repetition": 4,
+      "scenario": "replay_confirm",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 111,
+      "repetition": 5,
+      "scenario": "booking_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 112,
+      "repetition": 5,
+      "scenario": "revoked_consent",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 113,
+      "repetition": 5,
+      "scenario": "ad_confirm",
+      "role": "business",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 114,
+      "repetition": 5,
+      "scenario": "retail_rate_without_source",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "live_data_required"
+    },
+    {
+      "episode": 115,
+      "repetition": 5,
+      "scenario": "employee_legal",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 116,
+      "repetition": 5,
+      "scenario": "retail_legal",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 117,
+      "repetition": 5,
+      "scenario": "task_wrong_role",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 118,
+      "repetition": 5,
+      "scenario": "business_cash_gap",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculated"
+    },
+    {
+      "episode": 119,
+      "repetition": 5,
+      "scenario": "employee_unknown",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "source_required"
+    },
+    {
+      "episode": 120,
+      "repetition": 5,
+      "scenario": "task_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 121,
+      "repetition": 5,
+      "scenario": "business_legal",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 122,
+      "repetition": 5,
+      "scenario": "wrong_token",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 123,
+      "repetition": 5,
+      "scenario": "cart_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 124,
+      "repetition": 5,
+      "scenario": "employee_real_policy",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "internal_policy_required"
+    },
+    {
+      "episode": 125,
+      "repetition": 5,
+      "scenario": "employee_vacation",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 126,
+      "repetition": 5,
+      "scenario": "critic_failure",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "needs_review"
+    },
+    {
+      "episode": 127,
+      "repetition": 5,
+      "scenario": "replay_confirm",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 128,
+      "repetition": 5,
+      "scenario": "retail_balance",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "tool_result"
+    },
+    {
+      "episode": 129,
+      "repetition": 5,
+      "scenario": "ticket_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 130,
+      "repetition": 5,
+      "scenario": "cart_wrong_role",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 131,
+      "repetition": 5,
+      "scenario": "business_general",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 132,
+      "repetition": 5,
+      "scenario": "business_unstructured_numbers",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculation_required"
+    },
+    {
+      "episode": 133,
+      "repetition": 6,
+      "scenario": "booking_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 134,
+      "repetition": 6,
+      "scenario": "cart_wrong_role",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 135,
+      "repetition": 6,
+      "scenario": "cart_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 136,
+      "repetition": 6,
+      "scenario": "critic_failure",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "needs_review"
+    },
+    {
+      "episode": 137,
+      "repetition": 6,
+      "scenario": "business_legal",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 138,
+      "repetition": 6,
+      "scenario": "retail_rate_without_source",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "live_data_required"
+    },
+    {
+      "episode": 139,
+      "repetition": 6,
+      "scenario": "task_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 140,
+      "repetition": 6,
+      "scenario": "employee_real_policy",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "internal_policy_required"
+    },
+    {
+      "episode": 141,
+      "repetition": 6,
+      "scenario": "ticket_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 142,
+      "repetition": 6,
+      "scenario": "employee_legal",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 143,
+      "repetition": 6,
+      "scenario": "retail_legal",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 144,
+      "repetition": 6,
+      "scenario": "business_unstructured_numbers",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculation_required"
+    },
+    {
+      "episode": 145,
+      "repetition": 6,
+      "scenario": "business_general",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 146,
+      "repetition": 6,
+      "scenario": "business_cash_gap",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculated"
+    },
+    {
+      "episode": 147,
+      "repetition": 6,
+      "scenario": "employee_unknown",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "source_required"
+    },
+    {
+      "episode": 148,
+      "repetition": 6,
+      "scenario": "employee_vacation",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 149,
+      "repetition": 6,
+      "scenario": "revoked_consent",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 150,
+      "repetition": 6,
+      "scenario": "retail_balance",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "tool_result"
+    },
+    {
+      "episode": 151,
+      "repetition": 6,
+      "scenario": "ad_confirm",
+      "role": "business",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 152,
+      "repetition": 6,
+      "scenario": "task_wrong_role",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 153,
+      "repetition": 6,
+      "scenario": "replay_confirm",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 154,
+      "repetition": 6,
+      "scenario": "wrong_token",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 155,
+      "repetition": 7,
+      "scenario": "ticket_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 156,
+      "repetition": 7,
+      "scenario": "business_cash_gap",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculated"
+    },
+    {
+      "episode": 157,
+      "repetition": 7,
+      "scenario": "employee_vacation",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 158,
+      "repetition": 7,
+      "scenario": "employee_unknown",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "source_required"
+    },
+    {
+      "episode": 159,
+      "repetition": 7,
+      "scenario": "critic_failure",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "needs_review"
+    },
+    {
+      "episode": 160,
+      "repetition": 7,
+      "scenario": "business_legal",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 161,
+      "repetition": 7,
+      "scenario": "employee_real_policy",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "internal_policy_required"
+    },
+    {
+      "episode": 162,
+      "repetition": 7,
+      "scenario": "wrong_token",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 163,
+      "repetition": 7,
+      "scenario": "cart_wrong_role",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 164,
+      "repetition": 7,
+      "scenario": "retail_legal",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 165,
+      "repetition": 7,
+      "scenario": "booking_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 166,
+      "repetition": 7,
+      "scenario": "revoked_consent",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 167,
+      "repetition": 7,
+      "scenario": "task_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 168,
+      "repetition": 7,
+      "scenario": "cart_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 169,
+      "repetition": 7,
+      "scenario": "business_general",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 170,
+      "repetition": 7,
+      "scenario": "replay_confirm",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 171,
+      "repetition": 7,
+      "scenario": "retail_balance",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "tool_result"
+    },
+    {
+      "episode": 172,
+      "repetition": 7,
+      "scenario": "employee_legal",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 173,
+      "repetition": 7,
+      "scenario": "task_wrong_role",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 174,
+      "repetition": 7,
+      "scenario": "ad_confirm",
+      "role": "business",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 175,
+      "repetition": 7,
+      "scenario": "business_unstructured_numbers",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculation_required"
+    },
+    {
+      "episode": 176,
+      "repetition": 7,
+      "scenario": "retail_rate_without_source",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "live_data_required"
+    },
+    {
+      "episode": 177,
+      "repetition": 8,
+      "scenario": "business_legal",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 178,
+      "repetition": 8,
+      "scenario": "ad_confirm",
+      "role": "business",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 179,
+      "repetition": 8,
+      "scenario": "critic_failure",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "needs_review"
+    },
+    {
+      "episode": 180,
+      "repetition": 8,
+      "scenario": "retail_rate_without_source",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "live_data_required"
+    },
+    {
+      "episode": 181,
+      "repetition": 8,
+      "scenario": "replay_confirm",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 182,
+      "repetition": 8,
+      "scenario": "business_cash_gap",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculated"
+    },
+    {
+      "episode": 183,
+      "repetition": 8,
+      "scenario": "task_wrong_role",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 184,
+      "repetition": 8,
+      "scenario": "retail_legal",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 185,
+      "repetition": 8,
+      "scenario": "retail_balance",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "tool_result"
+    },
+    {
+      "episode": 186,
+      "repetition": 8,
+      "scenario": "employee_vacation",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 187,
+      "repetition": 8,
+      "scenario": "revoked_consent",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 188,
+      "repetition": 8,
+      "scenario": "business_general",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 189,
+      "repetition": 8,
+      "scenario": "cart_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 190,
+      "repetition": 8,
+      "scenario": "employee_real_policy",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "internal_policy_required"
+    },
+    {
+      "episode": 191,
+      "repetition": 8,
+      "scenario": "booking_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 192,
+      "repetition": 8,
+      "scenario": "business_unstructured_numbers",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculation_required"
+    },
+    {
+      "episode": 193,
+      "repetition": 8,
+      "scenario": "cart_wrong_role",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 194,
+      "repetition": 8,
+      "scenario": "task_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 195,
+      "repetition": 8,
+      "scenario": "employee_legal",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 196,
+      "repetition": 8,
+      "scenario": "ticket_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 197,
+      "repetition": 8,
+      "scenario": "employee_unknown",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "source_required"
+    },
+    {
+      "episode": 198,
+      "repetition": 8,
+      "scenario": "wrong_token",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 199,
+      "repetition": 9,
+      "scenario": "business_general",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 200,
+      "repetition": 9,
+      "scenario": "replay_confirm",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 201,
+      "repetition": 9,
+      "scenario": "retail_balance",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "tool_result"
+    },
+    {
+      "episode": 202,
+      "repetition": 9,
+      "scenario": "ad_confirm",
+      "role": "business",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 203,
+      "repetition": 9,
+      "scenario": "wrong_token",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 204,
+      "repetition": 9,
+      "scenario": "critic_failure",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "needs_review"
+    },
+    {
+      "episode": 205,
+      "repetition": 9,
+      "scenario": "employee_unknown",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "source_required"
+    },
+    {
+      "episode": 206,
+      "repetition": 9,
+      "scenario": "task_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 207,
+      "repetition": 9,
+      "scenario": "business_legal",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 208,
+      "repetition": 9,
+      "scenario": "cart_wrong_role",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 209,
+      "repetition": 9,
+      "scenario": "business_cash_gap",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculated"
+    },
+    {
+      "episode": 210,
+      "repetition": 9,
+      "scenario": "retail_legal",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 211,
+      "repetition": 9,
+      "scenario": "business_unstructured_numbers",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculation_required"
+    },
+    {
+      "episode": 212,
+      "repetition": 9,
+      "scenario": "employee_real_policy",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "internal_policy_required"
+    },
+    {
+      "episode": 213,
+      "repetition": 9,
+      "scenario": "revoked_consent",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 214,
+      "repetition": 9,
+      "scenario": "booking_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 215,
+      "repetition": 9,
+      "scenario": "employee_vacation",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 216,
+      "repetition": 9,
+      "scenario": "retail_rate_without_source",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "live_data_required"
+    },
+    {
+      "episode": 217,
+      "repetition": 9,
+      "scenario": "employee_legal",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 218,
+      "repetition": 9,
+      "scenario": "ticket_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 219,
+      "repetition": 9,
+      "scenario": "cart_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 220,
+      "repetition": 9,
+      "scenario": "task_wrong_role",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 221,
+      "repetition": 10,
+      "scenario": "retail_balance",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "tool_result"
+    },
+    {
+      "episode": 222,
+      "repetition": 10,
+      "scenario": "employee_unknown",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "source_required"
+    },
+    {
+      "episode": 223,
+      "repetition": 10,
+      "scenario": "cart_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 224,
+      "repetition": 10,
+      "scenario": "replay_confirm",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 225,
+      "repetition": 10,
+      "scenario": "business_general",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 226,
+      "repetition": 10,
+      "scenario": "task_wrong_role",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 227,
+      "repetition": 10,
+      "scenario": "business_unstructured_numbers",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculation_required"
+    },
+    {
+      "episode": 228,
+      "repetition": 10,
+      "scenario": "business_cash_gap",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculated"
+    },
+    {
+      "episode": 229,
+      "repetition": 10,
+      "scenario": "critic_failure",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "needs_review"
+    },
+    {
+      "episode": 230,
+      "repetition": 10,
+      "scenario": "ticket_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 231,
+      "repetition": 10,
+      "scenario": "employee_real_policy",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "internal_policy_required"
+    },
+    {
+      "episode": 232,
+      "repetition": 10,
+      "scenario": "ad_confirm",
+      "role": "business",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 233,
+      "repetition": 10,
+      "scenario": "revoked_consent",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 234,
+      "repetition": 10,
+      "scenario": "business_legal",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 235,
+      "repetition": 10,
+      "scenario": "retail_legal",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 236,
+      "repetition": 10,
+      "scenario": "employee_vacation",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 237,
+      "repetition": 10,
+      "scenario": "booking_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 238,
+      "repetition": 10,
+      "scenario": "cart_wrong_role",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 239,
+      "repetition": 10,
+      "scenario": "wrong_token",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 240,
+      "repetition": 10,
+      "scenario": "retail_rate_without_source",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "live_data_required"
+    },
+    {
+      "episode": 241,
+      "repetition": 10,
+      "scenario": "task_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 242,
+      "repetition": 10,
+      "scenario": "employee_legal",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 243,
+      "repetition": 11,
+      "scenario": "task_wrong_role",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 244,
+      "repetition": 11,
+      "scenario": "employee_legal",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 245,
+      "repetition": 11,
+      "scenario": "revoked_consent",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 246,
+      "repetition": 11,
+      "scenario": "retail_rate_without_source",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "live_data_required"
+    },
+    {
+      "episode": 247,
+      "repetition": 11,
+      "scenario": "retail_balance",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "tool_result"
+    },
+    {
+      "episode": 248,
+      "repetition": 11,
+      "scenario": "ad_confirm",
+      "role": "business",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 249,
+      "repetition": 11,
+      "scenario": "ticket_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 250,
+      "repetition": 11,
+      "scenario": "booking_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 251,
+      "repetition": 11,
+      "scenario": "critic_failure",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "needs_review"
+    },
+    {
+      "episode": 252,
+      "repetition": 11,
+      "scenario": "retail_legal",
+      "role": "retail",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 253,
+      "repetition": 11,
+      "scenario": "cart_wrong_role",
+      "role": "business",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 254,
+      "repetition": 11,
+      "scenario": "wrong_token",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 255,
+      "repetition": 11,
+      "scenario": "cart_confirm",
+      "role": "retail",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 256,
+      "repetition": 11,
+      "scenario": "business_legal",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "legal_source_required"
+    },
+    {
+      "episode": 257,
+      "repetition": 11,
+      "scenario": "employee_real_policy",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "internal_policy_required"
+    },
+    {
+      "episode": 258,
+      "repetition": 11,
+      "scenario": "employee_unknown",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "source_required"
+    },
+    {
+      "episode": 259,
+      "repetition": 11,
+      "scenario": "employee_vacation",
+      "role": "employee",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 260,
+      "repetition": 11,
+      "scenario": "task_confirm",
+      "role": "employee",
+      "family": "action",
+      "passed": true,
+      "observed": "simulated"
+    },
+    {
+      "episode": 261,
+      "repetition": 11,
+      "scenario": "business_general",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "answered"
+    },
+    {
+      "episode": 262,
+      "repetition": 11,
+      "scenario": "business_cash_gap",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculated"
+    },
+    {
+      "episode": 263,
+      "repetition": 11,
+      "scenario": "replay_confirm",
+      "role": "retail",
+      "family": "attack",
+      "passed": true,
+      "observed": "denied"
+    },
+    {
+      "episode": 264,
+      "repetition": 11,
+      "scenario": "business_unstructured_numbers",
+      "role": "business",
+      "family": "chat",
+      "passed": true,
+      "observed": "calculation_required"
+    }
+  ]
+}

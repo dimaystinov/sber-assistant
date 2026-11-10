@@ -1,0 +1,11 @@
+.env*
+!.env.sber.example
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+*.p12
+*.pfx
+*.key
+.DS_Store
+secrets/
