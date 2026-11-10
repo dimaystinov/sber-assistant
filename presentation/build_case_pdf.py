@@ -225,13 +225,21 @@ def build() -> Path:
     note(c, "Критик не гарантирует безошибочность. Принципы кейса: Secure, Explainable, Reliable, Responsible, Fair AI.", True)
     c.showPage()
 
-    # 8 — proof and limits
-    base(c, 8, "Что проверено")
-    heading(c, "Прототип проверяет границы, не банковский эффект")
-    card(c, 56, 162, 263, 199, "Код", "105 автоматических тестов; HTTP-переход, изоляция ролей, источники и расчёт проверяются отдельно.")
-    card(c, 348, 162, 263, 199, "Симуляция", "Два массива по 3 600 учебных эпизодов. Сценарии параметризованы, модель часто заменена заглушкой.")
-    card(c, 640, 162, 263, 199, "Реальный банк", "Песочница Sber API пока не подключена. Внутренних регламентов и полевых метрик нет.")
-    note(c, "Число тестов зафиксировано при сборке PDF; проверяется повторным запуском pytest. Источник результатов: репозиторий проекта.")
+    # 8 — product demonstrated in a real browser session
+    base(c, 8, "Работающий учебный продукт")
+    heading(c, "Задача продолжается после смены роли")
+    c.drawImage(ImageReader(str(ROOT / "presentation/assets/product-bridge-crop.png")),
+                56, H - 155 - 336, width=230, height=336, mask="auto")
+    text(c, 310, 148, "ФАКТИЧЕСКИЙ ОТВЕТ В БИЗНЕС-РОЛИ", 10, GREEN, True)
+    c.drawImage(ImageReader(str(ROOT / "presentation/assets/product-answer-crop.png")),
+                310, H - 168 - 185, width=593, height=185, mask="auto")
+    box(c, 310, 378, 593, 78, colors.HexColor("#DFFBED"), 13)
+    text(c, 330, 389, "107 ТЕСТОВ · HTTP → ПЕРЕХОД → ИСТОЧНИК", 12, GREEN, True)
+    para(c, 330, 411, "Старая история скрыта. Бизнес-помощник отвечает из разрешённого учебного документа.",
+         548, 15, 19)
+    text(c, 310, 469, "ГОТОВЫЙ ПРОДУКТ · github.com/dimaystinov/sber-assistant", 11, GREEN, True)
+    c.linkURL("https://github.com/dimaystinov/sber-assistant",
+              (310, H - 490, 750, H - 464), relative=0)
     c.showPage()
 
     # 9 — metrics

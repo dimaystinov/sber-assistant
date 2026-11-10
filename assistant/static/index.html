@@ -3,33 +3,67 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Помощник · учебная симуляция</title>
+  <title>Контур · Помощник для трёх ролей</title>
   <style>
-    :root{font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#18251f;background:#f3f7f3}
-    *{box-sizing:border-box}body{margin:0}header{background:#0b6540;color:white;padding:20px 5vw}header h1{margin:0;font-size:1.55rem}header p{margin:4px 0 0;color:#d5f3df}
-    main{max-width:1100px;margin:26px auto;padding:0 18px;display:grid;grid-template-columns:330px 1fr;gap:20px}
-    section{background:white;border:1px solid #d7e4db;border-radius:15px;padding:20px;box-shadow:0 4px 16px #0f3d2110}h2{margin:0 0 14px;font-size:1.12rem}label{display:block;margin:13px 0 5px;font-weight:600;font-size:.9rem}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;border:1px solid #a9beaf;border-radius:9px;padding:10px;background:#fff}textarea{min-height:90px;resize:vertical}button{border:0;border-radius:9px;background:#0b6540;color:#fff;padding:10px 14px;cursor:pointer;margin-top:10px}button:hover{background:#084f32}button.secondary{background:#e9f3ec;color:#164a30}button.danger{background:#924b19}.notice{background:#fff4df;border:1px solid #eac985;border-radius:9px;padding:11px;margin-bottom:16px}.muted{color:#52665a;font-size:.9rem}.row{display:flex;gap:8px;flex-wrap:wrap}.row button{flex:1;min-width:110px}.output{white-space:pre-wrap;background:#f5f8f5;border-radius:9px;padding:12px;min-height:50px;word-break:break-word}.message{padding:13px;border-bottom:1px solid #e2eae4}.message:last-child{border-bottom:0}.message strong{display:block;color:#0b6540}.message small{color:#53665b}#messages{max-height:430px;overflow:auto}.hidden{display:none}pre{white-space:pre-wrap;word-break:break-word;background:#f5f8f5;padding:12px;border-radius:9px;max-height:280px;overflow:auto}@media(max-width:760px){main{display:block}section{margin-bottom:18px}}
+    :root{font:16px/1.48 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:#133027;background:#edf3ef}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}
+    header{position:relative;overflow:hidden;background:#073c2c;color:white;padding:30px max(28px,calc((100vw - 1320px)/2)) 26px}
+    header:before{content:"";position:absolute;width:610px;height:610px;right:-110px;top:-390px;border:1px solid #79f6b24a;border-radius:50%;box-shadow:0 0 0 66px #79f6b20b,0 0 0 132px #79f6b20b,0 0 0 198px #79f6b208;pointer-events:none}
+    .brand{font-size:.76rem;font-weight:800;letter-spacing:.17em;color:#87ffb4;text-transform:uppercase}
+    header h1{font-size:clamp(2rem,4.1vw,3.55rem);line-height:1.04;letter-spacing:-.05em;max-width:810px;margin:15px 0 11px}
+    header p{max-width:760px;margin:0;color:#cae9d8;font-size:1.02rem}
+    .journey{position:relative;display:flex;align-items:center;gap:14px;max-width:850px;margin-top:28px;padding:13px 16px;border:1px solid #99ffbf3b;border-radius:14px;background:#ffffff0e}
+    .journey span{font-size:.82rem;font-weight:700;color:#defbe8;white-space:nowrap}.journey b{font-size:.72rem;color:#83fcb0;font-weight:800}
+    .journey i{height:1px;flex:1;min-width:12px;background:linear-gradient(90deg,#80fca2,#79deff);position:relative}
+    .journey i:after{content:"";position:absolute;right:0;top:-3px;width:7px;height:7px;border-radius:50%;background:#9efad0;box-shadow:0 0 15px #9efad0;animation:signal 2.8s ease-in-out infinite}
+    @keyframes signal{0%,100%{opacity:.35;transform:scale(.75)}50%{opacity:1;transform:scale(1.2)}}
+    main{max-width:1320px;margin:28px auto 70px;padding:0 24px;display:grid;grid-template-columns:minmax(310px,380px) minmax(0,1fr);gap:20px;align-items:start}
+    main>div{display:grid;gap:18px}section{background:#fff;border:1px solid #dbe7df;border-radius:18px;padding:24px;box-shadow:0 8px 30px #0b3d2310}
+    section h2{font-size:1.22rem;line-height:1.25;letter-spacing:-.025em;margin:0 0 13px}section h3{font-size:1rem;margin:20px 0 8px}
+    .section-kicker{color:#087844;font-size:.72rem;letter-spacing:.14em;font-weight:800;text-transform:uppercase;margin-bottom:8px}
+    .notice{background:#f4f8ef;border-left:3px solid #80cc83;border-radius:8px;padding:12px 14px;margin:15px 0;color:#4a5f4e;font-size:.82rem}
+    .muted{color:#60776b;font-size:.88rem}label{display:block;margin:15px 0 6px;font-weight:700;font-size:.85rem}
+    input,select,textarea{width:100%;border:1px solid #bfd2c5;border-radius:10px;padding:11px 12px;background:#fff;color:#17372b;outline:none}
+    input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:3px solid #71dca9;outline-offset:2px}
+    textarea{min-height:122px;resize:vertical}button{border:0;border-radius:10px;background:#087744;color:#fff;padding:11px 15px;font-weight:700;transition:background .2s,transform .2s,box-shadow .2s}
+    button:hover{background:#055d35;transform:translateY(-1px);box-shadow:0 5px 15px #0c643023}button.secondary{background:#e4f4e9;color:#0c6339}button.secondary:hover{background:#d5efdc}
+    button.danger{background:#89542b}#connect,#handoffButton{width:100%}
+    #handoffSection{background:linear-gradient(147deg,#ffffff 0%,#effcf4 100%);border-color:#b6e0c5}
+    #handoffSection .section-kicker{color:#0d9b5c}#handoffSection label:has(input[type=checkbox]){font-weight:500;font-size:.82rem;line-height:1.35}#revokeHandoff{width:100%;margin-top:10px}
+    input[type=checkbox]{accent-color:#087744;vertical-align:middle}#handoffResult{background:#e5f5eb}
+    .row{display:flex;gap:8px;flex-wrap:wrap}.row button{flex:1;min-width:115px}
+    .output,pre{white-space:pre-wrap;word-break:break-word;background:#f3f7f4;border:1px solid #e7eee8;border-radius:11px;padding:13px;min-height:52px;font-size:.85rem}
+    pre{max-height:280px;overflow:auto}#messages{min-height:260px;max-height:430px;overflow:auto;background:#f7faf8}
+    .message{padding:14px 4px;border-bottom:1px solid #e3ebe5}.message:last-child{border-bottom:0}.message strong{display:block;color:#087744;margin-bottom:5px}.message small{display:block;color:#60776b;margin-top:8px;font-size:.75rem}
+    .chat-panel{min-height:680px;position:sticky;top:20px}.chat-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .live-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border-radius:99px;background:#edf8f0;color:#26643e;font-size:.7rem;font-weight:800;white-space:nowrap}
+    .live-pill:before{content:"";width:7px;height:7px;border-radius:50%;background:#22c876}
+    .prompt-row{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0 4px}.prompt-row button{font-size:.78rem;padding:7px 10px;background:#eef6f0;color:#316a4b}
+    .hidden{display:none!important}
+    @media(max-width:950px){main{grid-template-columns:1fr}.chat-panel{position:static;min-height:0;grid-row:1}header{padding:28px 24px}.journey{max-width:none}}
+    @media(max-width:600px){main{padding:0 14px;margin-top:16px}section{padding:19px;border-radius:15px}.journey{gap:7px;padding:10px}.journey span{font-size:.68rem}.journey b{display:none}header h1{font-size:2.2rem}.chat-panel{grid-row:1}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
   </style>
 </head>
 <body>
-<header><h1>Помощник для трёх ролей</h1><p>Локальная учебная симуляция · GigaChat · все данные и действия вымышлены</p></header>
+<header><div class="brand">Контур / независимый прототип</div><h1>Одна задача.<br>Три роли человека.</h1><p>Учебный помощник на GigaChat продолжает задачу при смене роли и сохраняет данные каждого контура отдельно.</p><div class="journey" aria-label="Маршрут задачи"><span>Клиент</span><i></i><b>СОГЛАСИЕ</b><i></i><span>Предприниматель</span><i></i><span>Сотрудник</span></div></header>
 <main>
   <div>
-    <section><h2>Доступ и роль</h2>
+    <section><div class="section-kicker">01 / Вход</div><h2>Доступ и роль</h2>
       <div class="notice">ДЕМО: это не приложение Сбера. Ответы создаёт ИИ, он может ошибаться. Не вводите реальные персональные или банковские данные; не используйте ответы как профессиональную финансовую консультацию.</div>
       <label for="token">Локальный токен из .env</label><input id="token" type="password" autocomplete="off" placeholder="ASSISTANT_DEMO_TOKEN">
       <label for="role">Роль</label><select id="role"><option value="retail">Клиент</option><option value="business">Предприниматель</option><option value="employee">Сотрудник</option></select>
-      <button id="connect">Подключить учебную роль</button><p id="status" class="muted">Сначала введите локальный токен.</p>
+      <button id="connect">Подключить учебную роль</button><p id="status" class="muted" role="status" aria-live="polite">Сначала введите локальный токен.</p>
     </section>
-    <section><h2>Учебные данные</h2><div id="readButtons" class="row"></div><pre id="state">Подключите роль.</pre></section>
-    <section id="handoffSection"><h2>Продолжить задачу в другой роли</h2>
+    <section id="handoffSection"><div class="section-kicker">02 / Мост задачи</div><h2>Продолжить в другой роли</h2>
       <p class="muted">Учебный переход передаёт только намерение продолжить задачу. Переписка, счета и документы остаются в исходной роли.</p>
       <label for="handoffTarget">Новая роль</label><select id="handoffTarget"><option value="business">Предприниматель</option><option value="retail">Клиент</option></select>
       <label for="handoffIntent">Задача</label><select id="handoffIntent"><option value="continue_application">Продолжить оформление</option><option value="open_business_channel">Открыть бизнес-канал</option></select>
       <label><input id="handoffConsent" type="checkbox" style="width:auto"> Я разрешаю учебный переход между этими двумя ролями; согласие можно отозвать отдельно для каждой роли.</label>
-      <button id="handoffButton" class="secondary">Перейти и продолжить</button><div id="handoffResult" class="output">Сначала подключите роль клиента или предпринимателя.</div>
+      <button id="handoffButton" class="secondary">Перейти и продолжить</button><div id="handoffResult" class="output" role="status" aria-live="polite">Сначала подключите роль клиента или предпринимателя.</div><button id="revokeHandoff" class="secondary">Отозвать разрешение на переход</button>
     </section>
-    <section><h2>MCP-сервисы · ДЕМО</h2><p class="muted">Имена банковских инструментов взяты из публичной документации. Данные, CRM, HR и ИТ здесь учебные.</p>
+    <section><div class="section-kicker">03 / Данные</div><h2>Учебные данные</h2><div id="readButtons" class="row"></div><pre id="state">Подключите роль.</pre></section>
+    <section><div class="section-kicker">04 / Инструменты</div><h2>MCP-сервисы · ДЕМО</h2><p class="muted">Имена банковских инструментов взяты из публичной документации. Данные, CRM, HR и ИТ здесь учебные.</p>
       <label for="mcpTool">Разрешённый инструмент</label><select id="mcpTool"></select>
       <button id="mcpRun" class="secondary">Вызвать MCP</button><pre id="mcpOutput">Подключите роль.</pre>
       <div id="mcpPayment" class="hidden"><h3>Учебный платёжный черновик</h3><p class="muted">Подтверждение создаст только черновик со статусом CREATED. Подписи и списания денег нет.</p>
@@ -39,20 +73,22 @@
         <div id="mcpPending" class="hidden"><pre id="mcpPreview"></pre><button id="mcpConfirm" class="danger">Подтвердить создание черновика</button></div>
       </div>
     </section>
-    <section><h2>Действие</h2><p class="muted">Сначала создаётся черновик. Изменение симулятора происходит после подтверждения.</p>
+    <section><div class="section-kicker">05 / Действие</div><h2>Действие</h2><p class="muted">Сначала создаётся черновик. Изменение симулятора происходит после подтверждения.</p>
       <label for="action">Тип действия</label><select id="action"></select>
       <div id="fields"></div><button id="prepare">Показать черновик</button>
       <div id="pending" class="hidden"><pre id="preview"></pre><button id="confirm" class="danger">Подтвердить учебное действие</button></div>
     </section>
   </div>
-  <section><h2>Диалог</h2><div id="messages" class="output"><div class="muted">Задайте вопрос после выбора роли. Для сотрудника ответ по процедуре возможен только по найденному учебному документу.</div></div>
-    <label for="query">Ваш вопрос</label><textarea id="query" placeholder="Например: Как оформить отпуск?"></textarea><button id="send">Отправить</button>
+  <section class="chat-panel"><div class="section-kicker">Рабочее пространство</div><div class="chat-head"><h2>Диалог с помощником</h2><span class="live-pill">Учебный контур</span></div><div id="messages" class="output"><div class="muted">Задайте вопрос после выбора роли. Для сотрудника ответ по процедуре возможен только по найденному учебному документу.</div></div>
+    <div id="quickPrompts" class="prompt-row" aria-label="Примеры вопросов"></div><label for="query">Ваш вопрос</label><textarea id="query" placeholder="Опишите задачу в выбранной роли"></textarea><button id="send">Отправить вопрос</button>
     <p class="muted">Расчёты кассового разрыва доступны через структурные поля API. Ответы модели проверяет отдельный GigaChat-критик.</p>
   </section>
 </main>
 <script>
 const $=id=>document.getElementById(id);
 const channels={retail:'sberbank_online',business:'sbi_business',employee:'hr_portal'};
+const roleNames={retail:'клиент',business:'предприниматель',employee:'сотрудник'};
+const intentNames={continue_application:'продолжить оформление',open_business_channel:'открыть бизнес-канал'};
 const config={
  retail:{reads:[['retail_balance','Учебный остаток'],['retail_catalog','Каталог']],actions:{add_to_cart:[['sku','Товар','select',['demo-headphones','demo-router']],['quantity','Количество','number']],book_appointment:[['slot','Время','select',['2026-11-12T12:00:00+03:00','2026-11-13T15:00:00+03:00']]]}},
  business:{reads:[['business_cash_position','Кассовая позиция'],['business_competitors','Конкуренты'],['business_ads','Реклама']],actions:{create_ad_campaign:[['title','Название','text'],['channel','Канал','select',['search','social']],['budget','Бюджет','number']]}},
@@ -89,12 +125,14 @@ async function request(path,method='GET',body){const token=$('token').value.trim
 function status(text){$('status').textContent=text}
 function clearRoleView(){pending=null;mcpPending=null;$('messages').replaceChildren();$('messages').textContent='История предыдущей роли скрыта. Задайте вопрос в активной роли.';$('query').value='';$('pending').classList.add('hidden');$('mcpPending').classList.add('hidden');$('state').textContent='Подключите роль.';$('mcpOutput').textContent='Подключите роль.'}
 function roleConfig(){return config[$('role').value]}
-function render(){const item=roleConfig();$('handoffSection').classList.toggle('hidden',$('role').value==='employee');$('handoffTarget').value=$('role').value==='retail'?'business':'retail';$('readButtons').replaceChildren();for(const [name,label] of item.reads){const b=document.createElement('button');b.className='secondary';b.textContent=label;b.onclick=async()=>{try{let query=name==='employee_procedure'?prompt('Тема учебной инструкции (например, отпуск, обучение или подарок):','отпуск'):'';if(query===null)return;let result=await request('/v1/demo/read/'+name+'?query='+encodeURIComponent(query));$('state').textContent=result.text+'\nИсточник: '+result.source_id+' · '+result.version}catch(e){status(e.message)}};$('readButtons').append(b)}$('action').replaceChildren();for(const kind of Object.keys(item.actions)){let option=document.createElement('option');option.value=kind;option.textContent=kind;$('action').append(option)}renderFields();$('pending').classList.add('hidden');$('mcpTool').replaceChildren();for(const [service,tool,,label] of mcpPresets[$('role').value]){let option=document.createElement('option');option.value=tool;option.textContent=label+' · '+service;$('mcpTool').append(option)}$('mcpPayment').classList.toggle('hidden',$('role').value!=='business');$('mcpPending').classList.add('hidden');$('mcpOutput').textContent='Выберите инструмент и подключите роль.'}
+function renderExamples(){const prompts={retail:['Как записаться на учебный приём?','Какие товары есть в каталоге?'],business:['Как продолжить оформление расчётного счёта?','Как оценить учебную рекламную кампанию?'],employee:['Как оформить учебный отпуск?','Какие у меня учебные задачи?']};$('quickPrompts').replaceChildren();for(const example of prompts[$('role').value]){const button=document.createElement('button');button.className='secondary';button.textContent=example;button.onclick=()=>{$('query').value=example;$('query').focus()};$('quickPrompts').append(button)}}
+function render(){const item=roleConfig();renderExamples();$('handoffSection').classList.toggle('hidden',$('role').value==='employee');$('handoffTarget').value=$('role').value==='retail'?'business':'retail';$('readButtons').replaceChildren();for(const [name,label] of item.reads){const b=document.createElement('button');b.className='secondary';b.textContent=label;b.onclick=async()=>{try{let query=name==='employee_procedure'?prompt('Тема учебной инструкции (например, отпуск, обучение или подарок):','отпуск'):'';if(query===null)return;let result=await request('/v1/demo/read/'+name+'?query='+encodeURIComponent(query));$('state').textContent=result.text+'\nИсточник: '+result.source_id+' · '+result.version}catch(e){status(e.message)}};$('readButtons').append(b)}$('action').replaceChildren();for(const kind of Object.keys(item.actions)){let option=document.createElement('option');option.value=kind;option.textContent=kind;$('action').append(option)}renderFields();$('pending').classList.add('hidden');$('mcpTool').replaceChildren();for(const [service,tool,,label] of mcpPresets[$('role').value]){let option=document.createElement('option');option.value=tool;option.textContent=label+' · '+service;$('mcpTool').append(option)}$('mcpPayment').classList.toggle('hidden',$('role').value!=='business');$('mcpPending').classList.add('hidden');$('mcpOutput').textContent='Выберите инструмент и подключите роль.'}
 function renderFields(){const fields=roleConfig().actions[$('action').value]||[];$('fields').replaceChildren();for(const [name,label,type,options] of fields){let l=document.createElement('label');l.textContent=label;l.htmlFor='field-'+name;$('fields').append(l);let el=type==='select'?document.createElement('select'):document.createElement('input');el.id='field-'+name;if(type==='select'){for(const value of options){let op=document.createElement('option');op.value=value;op.textContent=value;el.append(op)}}else el.type=type;$('fields').append(el)}}
 async function refresh(){let data=await request('/v1/demo/state');$('state').textContent=JSON.stringify(data.state,null,2)}
 $('role').onchange=()=>{connected=false;clearRoleView();status('Подключите выбранную роль.');render()};$('action').onchange=renderFields;
 $('connect').onclick=async()=>{try{let role=$('role').value,channel=channels[role];await request('/v1/consents','POST',{scope:'llm_processing',role,channel});await request('/v1/role/switch','POST',{target_role:role,channel});connected=true;clearRoleView();status('Роль подключена. Только учебные данные.');await refresh()}catch(e){connected=false;status(e.message)}};
-$('handoffButton').onclick=async()=>{if(!connected){status('Сначала подключите исходную роль.');return}if(!$('handoffConsent').checked){status('Отметьте согласие на учебный переход.');return}const source=$('role').value,target=$('handoffTarget').value;if(source==='employee'||source===target){status('Переход доступен только между клиентом и предпринимателем.');return}try{for(const role of [source,target]){await request('/v1/consents','POST',{scope:'llm_processing',role,channel:channels[role]});await request('/v1/consents','POST',{scope:'cross_retrieval.retail_biz',role,channel:channels[role]})}const issued=await request('/v1/handoff/request','POST',{target_role:target,intent:$('handoffIntent').value,opt_in:true});connected=false;clearRoleView();await request('/v1/role/switch','POST',{target_role:target,channel:channels[target]});const claimed=await request('/v1/handoff/claim','POST',{token:issued.token});$('role').value=target;render();connected=true;$('handoffConsent').checked=false;$('handoffResult').textContent='Продолжение задачи: '+claimed.signal.intent+' · исходная роль: '+claimed.signal.source_role+' · данные исходной роли не перенесены.';$('query').value=claimed.suggested_question;status('Переход выполнен. Активна роль: '+target);await refresh()}catch(e){status(e.message)}};
+$('handoffButton').onclick=async()=>{if(!connected){status('Сначала подключите исходную роль.');return}if(!$('handoffConsent').checked){status('Отметьте согласие на учебный переход.');return}const source=$('role').value,target=$('handoffTarget').value;if(source==='employee'||source===target){status('Переход доступен только между клиентом и предпринимателем.');return}try{for(const role of [source,target]){await request('/v1/consents','POST',{scope:'llm_processing',role,channel:channels[role]});await request('/v1/consents','POST',{scope:'cross_retrieval.retail_biz',role,channel:channels[role]})}const issued=await request('/v1/handoff/request','POST',{target_role:target,intent:$('handoffIntent').value,opt_in:true});connected=false;clearRoleView();await request('/v1/role/switch','POST',{target_role:target,channel:channels[target]});const claimed=await request('/v1/handoff/claim','POST',{token:issued.token});$('role').value=target;render();connected=true;$('handoffConsent').checked=false;$('handoffResult').textContent='Продолжение задачи: '+intentNames[claimed.signal.intent]+'. Исходная роль: '+roleNames[claimed.signal.source_role]+'. Данные прежней роли не перенесены.';$('query').value=claimed.suggested_question;status('Переход выполнен. Активная роль: '+roleNames[target]);await refresh()}catch(e){status(e.message)}};
+$('revokeHandoff').onclick=async()=>{if(!connected){status('Сначала подключите роль.');return}try{const result=await request('/v1/handoff/consents','DELETE');$('handoffConsent').checked=false;$('handoffResult').textContent=result.revoked_roles.length?'Разрешение отозвано. Новые переходы закрыты; данные активной роли сохранены.':'Активного разрешения на переход нет.';status('Разрешение на переход отозвано.')}catch(e){status(e.message)}};
 $('send').onclick=async()=>{if(!connected){status('Сначала подключите роль.');return}let query=$('query').value.trim();if(!query)return;let message=document.createElement('div');message.className='message';message.textContent='Вы: '+query;$('messages').append(message);$('query').value='';try{let data=await request('/v1/chat','POST',{query});let answer=document.createElement('div');answer.className='message';let strong=document.createElement('strong');strong.textContent='Помощник';let body=document.createElement('div');body.textContent=data.answer;let meta=document.createElement('small');meta.textContent='Решение: '+data.decision+' · Источники: '+(data.sources||[]).map(x=>x.source_id+' ('+x.version+')').join(', ');answer.append(strong,body,meta);$('messages').append(answer);$('messages').scrollTop=$('messages').scrollHeight}catch(e){status(e.message)}};
 $('prepare').onclick=async()=>{if(!connected){status('Сначала подключите роль.');return}const kind=$('action').value,payload={};for(const [name,,type] of roleConfig().actions[kind]){let value=$('field-'+name).value;payload[name]=type==='number'&&name==='quantity'?Number(value):value}try{pending=await request('/v1/demo/actions/prepare','POST',{kind,payload});$('preview').textContent='ДЕМО · '+kind+'\n'+JSON.stringify(pending.payload,null,2)+'\nДействие пока не выполнено.';$('pending').classList.remove('hidden')}catch(e){status(e.message)}};
 $('confirm').onclick=async()=>{if(!pending)return;try{let event=await request('/v1/demo/actions/confirm','POST',{action_id:pending.action_id,confirmation_token:pending.confirmation_token});status('Учебное действие выполнено: '+event.kind);pending=null;$('pending').classList.add('hidden');await refresh()}catch(e){status(e.message)}};render();

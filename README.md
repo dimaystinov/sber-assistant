@@ -1,7 +1,10 @@
 # Универсальный помощник Сбера — прототип для чемпионата
 
+**Работающий учебный продукт уже готов и опубликован:** [github.com/dimaystinov/sber-assistant](https://github.com/dimaystinov/sber-assistant). В репозитории находятся код приложения, тесты, симуляторы банковских сервисов, архитектура и презентация. Его можно запустить локально и показать сквозной сценарий трёх ролей. Для промышленной интеграции ещё нужны доступы, утверждённые данные и банковская проверка.
+
 **Исходное задание чемпионата:** [`docs/source/AI-for-Business-Cup-2026-Sber-case-v3.pdf`](docs/source/AI-for-Business-Cup-2026-Sber-case-v3.pdf)  
 **Сверка решения с шестью требованиями кейса:** [`docs/CASE-REQUIREMENTS-AUDIT.md`](docs/CASE-REQUIREMENTS-AUDIT.md)  
+**Архитектура проекта и границы доверия:** [`docs/PROJECT-ARCHITECTURE.md`](docs/PROJECT-ARCHITECTURE.md)
 **Экономика и дорожная карта 2027–2029:** [`docs/ECONOMICS-ROADMAP-2027-2029.md`](docs/ECONOMICS-ROADMAP-2027-2029.md)  
 **PDF-презентация для сдачи (15 слайдов):** [`output/pdf/universal-assistant-case-2026.pdf`](output/pdf/universal-assistant-case-2026.pdf)  
 **Корень проекта:** каталог `sber-assistant` после клонирования репозитория.  
@@ -35,7 +38,7 @@
 
 График: [`docs/figures/research-results.png`](docs/figures/research-results.png). Машинные результаты: [`evals/results/large-deployment-simulation.json`](evals/results/large-deployment-simulation.json), [`evals/results/large-deployment-simulation-mcp.json`](evals/results/large-deployment-simulation-mcp.json), [`evals/results/rag-benchmark.json`](evals/results/rag-benchmark.json), [`evals/results/guarded-probe.jsonl`](evals/results/guarded-probe.jsonl). Протокол будущего контролируемого пилота — в статье. Векторные Sber `EmbeddingsGigaR` не оценены: доступный ключ получил HTTP 402.
 
-Для воспроизведения: `.venv/bin/python -m pytest -q`, затем `.venv/bin/python -m evals.case_economics --output evals/results/case-economics.json`, `.venv/bin/python -m presentation.build_case_pdf`, `.venv/bin/python -m evals.simulate_deployment --per-role 1200 --seed 20261109 --mcp --output evals/results/large-deployment-simulation-mcp.json`, `.venv/bin/python -m evals.simulate_service_matrix --per-role 1200 --seed 20261110 --output evals/results/service-matrix.json` и `.venv/bin/python -m evals.evaluate_rag --semantic-router`. Текущий прогон тестов: **105 passed** (10 ноября 2026). В первом массиве 3 600 эпизодов на 23 шаблонах, из них 1 734 диалога использовали MCP-поиск. Во втором — ещё 3 600 эпизодов на **50 расширенных шаблонах** для десяти категорий сервисов; все заданные проверки прошли. Оба массива остаются синтетическими повторениями с заглушкой модели.
+Для воспроизведения: `.venv/bin/python -m pytest -q`, затем `.venv/bin/python -m evals.case_economics --output evals/results/case-economics.json`, `.venv/bin/python -m presentation.build_case_pdf`, `.venv/bin/python -m evals.simulate_deployment --per-role 1200 --seed 20261109 --mcp --output evals/results/large-deployment-simulation-mcp.json`, `.venv/bin/python -m evals.simulate_service_matrix --per-role 1200 --seed 20261110 --output evals/results/service-matrix.json` и `.venv/bin/python -m evals.evaluate_rag --semantic-router`. Текущий прогон тестов: **107 passed** (11 ноября 2026). В первом массиве 3 600 эпизодов на 23 шаблонах, из них 1 734 диалога использовали MCP-поиск. Во втором — ещё 3 600 эпизодов на **50 расширенных шаблонах** для десяти категорий сервисов; все заданные проверки прошли. Оба массива остаются синтетическими повторениями с заглушкой модели.
 
 **MCP:** подключён настоящий in-process MCP-клиент/сервер для поиска по учебным ролевым документам, чтения учебного остатка/каталога/бизнес-данных/задач и расчёта кассового разрыва. Граф использует MCP через серверный broker; роль, согласие, возвращённый источник и расчёт проверяются кодом. Отдельный учебный MCP-двойник создаёт платёжный **черновик** после `prepare/confirm`. Для официальной песочницы подготовлен отдельный read-only [mTLS-коннектор](assistant/sber_sandbox.py), который делает MCP handshake и `tools/list` на пяти фиксированных тестовых адресах. Он проверен локально, но банковский стенд ещё не вызывался: тестовые `.p12` и `access_token` не выданы. Реальные банковские системы и исполнение платежа не подключены. Публичные Sber docs-mcp, Voice Salute, Kandinsky и Think MCP описаны в [`плане`](docs/MCP-INTEGRATION-PLAN.md) с назначением и границами безопасности.
 
@@ -56,6 +59,8 @@
 | Сотрудник (`employee`) | Найти и понять актуальную процедуру | Не выдавать типовой порядок за внутреннюю политику |
 
 ## Архитектура и честный статус
+
+Подробная [схема компонентов, границ доверия и пути запроса](docs/PROJECT-ARCHITECTURE.md) привязана к конкретным файлам работающего продукта.
 
 ```text
 Проверенная личность и согласие → отдельная роль и сессия → разрешённый контекст
@@ -102,7 +107,7 @@ SberID, KMS, Redis, PostgreSQL/pgvector, корпоративные докуме
 
 Сквозной переход сейчас передаёт только фиксированное намерение продолжить
 задачу через одноразовый токен на 120 секунд. HTTP-маршрут реализован через
-`/v1/handoff/request` и `/v1/handoff/claim`; экран позволяет пройти его. Текст, выписки, история, RAG,
+`/v1/handoff/request` и `/v1/handoff/claim`; экран позволяет пройти его и отозвать разрешение через `DELETE /v1/handoff/consents`. Отзыв перехода сохраняет данные каждой собственной роли. Текст, выписки, история, RAG,
 эмбеддинги и данные сотрудника не передаются. Ранее метаданные документа могли
 самостоятельно разрешить «проверенный агрегат»; этот путь закрыт, а параметр
 `cross_role_opt_in` сохранён для совместимости без прямого cross-RAG. Подробная
@@ -285,12 +290,12 @@ set -a; source .env; set +a
 действия. Для сквозного сценария подключите клиента, выберите «Продолжить задачу
 в другой роли», отметьте учебное согласие и перейдите к предпринимателю.
 Переписка исходной роли скроется, а вопрос для продолжения появится в поле
-диалога. Токен не встроен в страницу и не сохраняется в браузере.
+диалога. Кнопка «Отозвать разрешение на переход» закрывает новые переходы и сохраняет контекст активной роли. Токен не встроен в страницу и не сохраняется в браузере.
 
 Демо API требует `Authorization: Bearer <ASSISTANT_DEMO_TOKEN>`. Токен есть
 только в локальном `.env`, который исключён из Git. Методы:
 `/v1/consents`, `/v1/role/switch`, `/v1/handoff/request`,
-`/v1/handoff/claim`, `/v1/chat`, `/v1/demo/state`,
+`/v1/handoff/claim`, `DELETE /v1/handoff/consents`, `/v1/chat`, `/v1/demo/state`,
 `/v1/demo/read/{name}`, `/v1/demo/actions/prepare`,
 `/v1/demo/actions/confirm`. Учебные корзина, бронь, реклама, назначение задачи
 и обращение сначала создают черновик; изменение происходит лишь после явного

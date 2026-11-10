@@ -169,17 +169,21 @@ class RoleContextManager:
         record = self._consents.withdraw(
             self._current_hash(role), role, scope, channel=channel
         )
-        # Синхронный след не нужен — ConsentJournal сам публикует событие в
-        # подписчиков, включая роль RedisSessionStore и VectorStore (удаление ≤24 ч).
+        # Журнал публикует отзыв подписчикам: отзыв LLM_PROCESSING стирает
+        # контекст роли, отзыв перехода закрывает мост и сохраняет её память.
         self._audit("consent_withdrawn", role=role, channel=channel,
                     detail={"consent_id": record.consent_id})
 
     # ---------- Реакция на Kafka consent.revoked / consent.granted ----------
 
     def _on_consent_event(self, record: ConsentRecord) -> None:
-        if record.action is ConsentAction.WITHDRAWN:
+        if (
+            record.action is ConsentAction.WITHDRAWN
+            and record.scope is ConsentScope.LLM_PROCESSING
+        ):
             # Инвалидация всех Redis-сессий этой роли немедленно
             self._redis.drop_all_for(record.subject_hash, record.role)
+            # Иные согласия не стирают самостоятельный контекст роли.
             # В проде — асинхронная очередь удалений с SLA ≤24 ч (REVOKED_DELETION_SLA)
             self._vectors.delete_subject(record.role, record.subject_hash)
             if self._active_role is record.role:

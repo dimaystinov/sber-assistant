@@ -65,3 +65,20 @@ def test_http_handoff_requires_explicit_consent_and_blocks_employee(monkeypatch)
     assert http.post("/v1/handoff/request", headers=HEADERS, json=body).status_code == 403
     body["target_role"] = "employee"
     assert http.post("/v1/handoff/request", headers=HEADERS, json=body).status_code == 403
+
+
+def test_http_withdrawal_blocks_handoff_but_keeps_own_context(monkeypatch) -> None:
+    http, manager = client(monkeypatch)
+    for role in ("retail", "business"):
+        consent(http, role, ConsentScope.LLM_PROCESSING.value)
+        consent(http, role, ConsentScope.CROSS_RETRIEVAL_RETAIL.value)
+    http.post("/v1/role/switch", headers=HEADERS,
+              json={"target_role": "retail", "channel": "sberbank_online"})
+    manager.remember("учебная заметка клиента")
+    response = http.delete("/v1/handoff/consents", headers=HEADERS)
+    assert response.status_code == 200
+    assert set(response.json()["revoked_roles"]) == {"retail", "business"}
+    assert manager.get_context("заметка")["own_context"]
+    assert http.post("/v1/handoff/request", headers=HEADERS,
+                     json={"target_role": "business", "intent": "continue_application",
+                           "opt_in": True}).status_code == 403

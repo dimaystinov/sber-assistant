@@ -213,6 +213,23 @@ def claim_handoff(
     return {"signal": signal, "suggested_question": prompt,
             "provenance": "demo_fixture"}
 
+
+@app.delete("/v1/handoff/consents")
+def revoke_handoff_consents(
+    manager: RoleContextManager = Depends(get_current_identity),
+):
+    """Отозвать оба учебных разрешения на переход, сохранив память ролей."""
+    if manager.active_role not in (Role.RETAIL, Role.BUSINESS):
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "Нет активной клиентской роли")
+    revoked: list[str] = []
+    for role in (Role.RETAIL, Role.BUSINESS):
+        if manager.check_consent(role, ConsentScope.CROSS_RETRIEVAL_RETAIL):
+            manager.withdraw_consent(
+                role, ConsentScope.CROSS_RETRIEVAL_RETAIL, _ROLE_CHANNEL[role]
+            )
+            revoked.append(role.value)
+    return {"revoked_roles": revoked, "status": "withdrawn_in_demo"}
+
 @app.post("/v1/chat")
 def chat(msg: ChatMessage, manager: RoleContextManager = Depends(get_current_identity)):
     """Диалог в активной роли через граф с программной проверкой основания."""

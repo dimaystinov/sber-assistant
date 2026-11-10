@@ -133,6 +133,21 @@ def test_withdraw_revokes_sessions_and_deletes_data() -> None:
         manager.switch_role(Role.RETAIL)
 
 
+def test_withdraw_cross_role_permission_preserves_own_role_context() -> None:
+    manager, _ = make_manager()
+    manager.grant_consent(Role.RETAIL, ConsentScope.LLM_PROCESSING, "sberbank_online")
+    manager.grant_consent(Role.RETAIL, ConsentScope.CROSS_RETRIEVAL_RETAIL, "sberbank_online")
+    session = manager.switch_role(Role.RETAIL, "sberbank_online").session
+    manager.remember("моя учебная заметка")
+
+    manager.withdraw_consent(Role.RETAIL, ConsentScope.CROSS_RETRIEVAL_RETAIL,
+                             "sberbank_online")
+
+    assert manager.active_role is Role.RETAIL
+    assert manager.get_context("учебная заметка")["own_context"]
+    assert manager.switch_role(Role.RETAIL).session.session_id == session.session_id
+
+
 def test_employee_role_restricted_to_hr_scope() -> None:
     manager, _ = make_manager()
     manager.grant_consent(Role.EMPLOYEE, ConsentScope.HR_ANALYTICS, "hr_portal")
