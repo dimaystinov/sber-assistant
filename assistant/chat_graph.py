@@ -37,6 +37,9 @@ _REAL_INTERNAL_POLICY = re.compile(
     re.I,
 )
 _UNVERIFIED_MATH = re.compile(r"[=×÷]|\b\d+(?:[.,]\d+)?\s*%")
+_SOURCE_REFERENCE = re.compile(
+    r"источник(?:е|а|у|ом|и|ов)?\s*(?:№|#)\s*([\w.-]+)", re.I
+)
 
 
 def _format_context(context: dict[str, Any]) -> str | None:
@@ -77,6 +80,7 @@ def build_chat_graph(
                     "source_id": document.source_id,
                     "version": document.version,
                     "verified_source": True,
+                    "source_text": document.text,
                 })
                 sources.append({
                     "source_id": document.source_id,
@@ -129,6 +133,22 @@ def build_chat_graph(
                 ),
                 "tokens_used": 0,
             }
+        if (
+            role is Role.BUSINESS
+            and "продолжить оформление расчётного счёта" in query.lower()
+            and "учебном сбербизнесе" in query.lower()
+        ):
+            source = next(
+                (item for item in state["context"]["own_context"]
+                 if item.get("source_id") == "demo-business-onboarding"
+                 and item.get("verified_source") is True), None
+            )
+            if source is not None:
+                return {
+                    "decision": "source_answer",
+                    "answer": source["source_text"],
+                    "tokens_used": 0,
+                }
         tool_items = [
             item for item in state["context"]["own_context"]
             if item.get("tool_result") and item.get("verified_source")
@@ -202,6 +222,16 @@ def build_chat_graph(
         return {"draft": result.content, "tokens_used": result.tokens_used}
 
     def critique(state: ChatState) -> ChatState:
+        referenced = _SOURCE_REFERENCE.findall(state["draft"])
+        allowed_ids = {item["source_id"] for item in state.get("sources", [])}
+        if any(reference not in allowed_ids for reference in referenced):
+            return {
+                "answer": (
+                    "Ответ содержит ссылку на источник, которого нет в разрешённой "
+                    "базе текущей роли. Проверьте документы и повторите запрос."
+                ),
+                "decision": "source_reference_invalid",
+            }
         if is_legal_question(state["draft"]):
             return {
                 "answer": source_required_answer(state["role"]),

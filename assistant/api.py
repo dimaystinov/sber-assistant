@@ -18,6 +18,7 @@ from .calculations import CashGapInput
 from .demo_tools import DemoToolBroker
 from .mcp_tools import McpDemoToolBroker
 from .simulated_sber_services import SimulatedSberMcpGateway
+from .handoff import HandoffCoordinator, HandoffDenied
 from .role_context import RoleContextManager, RoleSwitchDenied
 
 app = FastAPI(
@@ -33,6 +34,7 @@ app = FastAPI(
 class Runtime:
     consent: object = None
     managers: dict = field(default_factory=dict)
+    handoffs: dict = field(default_factory=dict)
     gigachat: object = None
     broker: DemoToolBroker = field(default_factory=McpDemoToolBroker)
     sber_mcp: SimulatedSberMcpGateway = field(default_factory=SimulatedSberMcpGateway)
@@ -77,6 +79,7 @@ def _bootstrap() -> None:
         else:
             _RUNTIME.gigachat = GigaChatClient(mode="offline")
         _RUNTIME.managers.clear()
+        _RUNTIME.handoffs.clear()
 
 
 def get_current_identity(authorization: str | None = Header(default=None)):
@@ -118,6 +121,16 @@ class SwitchRoleRequest(BaseModel):
     channel: str = Field(pattern="^(sberbank_online|sbi_business|hr_portal)$")
 
 
+class HandoffRequest(BaseModel):
+    target_role: Role
+    intent: str = Field(min_length=1, max_length=64)
+    opt_in: bool = False
+
+
+class HandoffClaim(BaseModel):
+    token: str = Field(min_length=1, max_length=128)
+
+
 class ConsentRequest(BaseModel):
     scope: ConsentScope
     role: Role
@@ -156,7 +169,49 @@ def _require_channel(role: Role, channel: str) -> None:
         raise HTTPException(status_code=403, detail="Канал не соответствует роли")
 
 
+def _handoff(manager: RoleContextManager) -> HandoffCoordinator:
+    if manager not in _RUNTIME.handoffs:
+        _RUNTIME.handoffs[manager] = HandoffCoordinator(manager)
+    return _RUNTIME.handoffs[manager]
+
+
 # ---Эндпоинты -----------------------------------------------------------------
+
+@app.post("/v1/handoff/request")
+def request_handoff(
+    req: HandoffRequest, manager: RoleContextManager = Depends(get_current_identity),
+):
+    try:
+        token = _handoff(manager).request(
+            req.target_role, intent=req.intent, opt_in=req.opt_in
+        )
+    except HandoffDenied as exc:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, str(exc)) from exc
+    return {"token": token, "target_role": req.target_role.value,
+            "expires_after_sec": HandoffCoordinator._TTL_SECONDS,
+            "provenance": "demo_fixture"}
+
+
+@app.post("/v1/handoff/claim")
+def claim_handoff(
+    req: HandoffClaim, manager: RoleContextManager = Depends(get_current_identity),
+):
+    try:
+        signal = _handoff(manager).claim(req.token)
+    except HandoffDenied as exc:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, str(exc)) from exc
+    prompt = {
+        ("retail", "business", "continue_application"):
+            "Помоги продолжить оформление расчётного счёта в учебном СберБизнесе: какой следующий шаг?",
+        ("retail", "business", "open_business_channel"):
+            "Какие учебные возможности бизнес-канала доступны после перехода?",
+        ("business", "retail", "continue_application"):
+            "Помоги продолжить задачу в клиентском канале: какой следующий шаг доступен?",
+        ("business", "retail", "open_business_channel"):
+            "Какие учебные возможности клиентского канала доступны после перехода?",
+    }[(signal["source_role"], manager.active_role.value, signal["intent"])]
+    return {"signal": signal, "suggested_question": prompt,
+            "provenance": "demo_fixture"}
 
 @app.post("/v1/chat")
 def chat(msg: ChatMessage, manager: RoleContextManager = Depends(get_current_identity)):

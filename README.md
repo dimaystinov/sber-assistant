@@ -35,7 +35,7 @@
 
 График: [`docs/figures/research-results.png`](docs/figures/research-results.png). Машинные результаты: [`evals/results/large-deployment-simulation.json`](evals/results/large-deployment-simulation.json), [`evals/results/large-deployment-simulation-mcp.json`](evals/results/large-deployment-simulation-mcp.json), [`evals/results/rag-benchmark.json`](evals/results/rag-benchmark.json), [`evals/results/guarded-probe.jsonl`](evals/results/guarded-probe.jsonl). Протокол будущего контролируемого пилота — в статье. Векторные Sber `EmbeddingsGigaR` не оценены: доступный ключ получил HTTP 402.
 
-Для воспроизведения: `.venv/bin/python -m pytest -q`, затем `.venv/bin/python -m evals.case_economics --output evals/results/case-economics.json`, `.venv/bin/python -m presentation.build_case_pdf`, `.venv/bin/python -m evals.simulate_deployment --per-role 1200 --seed 20261109 --mcp --output evals/results/large-deployment-simulation-mcp.json`, `.venv/bin/python -m evals.simulate_service_matrix --per-role 1200 --seed 20261110 --output evals/results/service-matrix.json` и `.venv/bin/python -m evals.evaluate_rag --semantic-router`. Текущий прогон тестов: **101 passed** (10 ноября 2026). В первом массиве 3 600 эпизодов на 23 шаблонах, из них 1 734 диалога использовали MCP-поиск. Во втором — ещё 3 600 эпизодов на **50 расширенных шаблонах** для десяти категорий сервисов; все заданные проверки прошли. Оба массива остаются синтетическими повторениями с заглушкой модели.
+Для воспроизведения: `.venv/bin/python -m pytest -q`, затем `.venv/bin/python -m evals.case_economics --output evals/results/case-economics.json`, `.venv/bin/python -m presentation.build_case_pdf`, `.venv/bin/python -m evals.simulate_deployment --per-role 1200 --seed 20261109 --mcp --output evals/results/large-deployment-simulation-mcp.json`, `.venv/bin/python -m evals.simulate_service_matrix --per-role 1200 --seed 20261110 --output evals/results/service-matrix.json` и `.venv/bin/python -m evals.evaluate_rag --semantic-router`. Текущий прогон тестов: **105 passed** (10 ноября 2026). В первом массиве 3 600 эпизодов на 23 шаблонах, из них 1 734 диалога использовали MCP-поиск. Во втором — ещё 3 600 эпизодов на **50 расширенных шаблонах** для десяти категорий сервисов; все заданные проверки прошли. Оба массива остаются синтетическими повторениями с заглушкой модели.
 
 **MCP:** подключён настоящий in-process MCP-клиент/сервер для поиска по учебным ролевым документам, чтения учебного остатка/каталога/бизнес-данных/задач и расчёта кассового разрыва. Граф использует MCP через серверный broker; роль, согласие, возвращённый источник и расчёт проверяются кодом. Отдельный учебный MCP-двойник создаёт платёжный **черновик** после `prepare/confirm`. Для официальной песочницы подготовлен отдельный read-only [mTLS-коннектор](assistant/sber_sandbox.py), который делает MCP handshake и `tools/list` на пяти фиксированных тестовых адресах. Он проверен локально, но банковский стенд ещё не вызывался: тестовые `.p12` и `access_token` не выданы. Реальные банковские системы и исполнение платежа не подключены. Публичные Sber docs-mcp, Voice Salute, Kandinsky и Think MCP описаны в [`плане`](docs/MCP-INTEGRATION-PLAN.md) с назначением и границами безопасности.
 
@@ -98,9 +98,11 @@ SberID, KMS, Redis, PostgreSQL/pgvector, корпоративные докуме
 | `evals/run_role_dialogs.py` | Прогон синтетических сценариев |
 | `docs/HARNESS-RESEARCH-AND-DESIGN.md` | Источники, анализ форков и harness |
 | `docs/GIGAGRAPH-IMPROVEMENTS.md` | Улучшения графа, multi-agent и tool broker |
+| `docs/PRODUCT-STRATEGY-AND-DEMO.md` | Решение кейса, сквозной путь на экране и критерии пилота |
 
 Сквозной переход сейчас передаёт только фиксированное намерение продолжить
-задачу через одноразовый токен на 120 секунд. Текст, выписки, история, RAG,
+задачу через одноразовый токен на 120 секунд. HTTP-маршрут реализован через
+`/v1/handoff/request` и `/v1/handoff/claim`; экран позволяет пройти его. Текст, выписки, история, RAG,
 эмбеддинги и данные сотрудника не передаются. Ранее метаданные документа могли
 самостоятельно разрешить «проверенный агрегат»; этот путь закрыт, а параметр
 `cross_role_opt_in` сохранён для совместимости без прямого cross-RAG. Подробная
@@ -280,11 +282,15 @@ set -a; source .env; set +a
 Откройте `http://127.0.0.1:8000/`, введите локальный
 `ASSISTANT_DEMO_TOKEN` из `.env`, выберите роль и нажмите «Подключить учебную
 роль». Экран показывает диалог, источники, учебные данные и подтверждение
-действия. Токен не встроен в страницу и не сохраняется в браузере.
+действия. Для сквозного сценария подключите клиента, выберите «Продолжить задачу
+в другой роли», отметьте учебное согласие и перейдите к предпринимателю.
+Переписка исходной роли скроется, а вопрос для продолжения появится в поле
+диалога. Токен не встроен в страницу и не сохраняется в браузере.
 
 Демо API требует `Authorization: Bearer <ASSISTANT_DEMO_TOKEN>`. Токен есть
 только в локальном `.env`, который исключён из Git. Методы:
-`/v1/consents`, `/v1/role/switch`, `/v1/chat`, `/v1/demo/state`,
+`/v1/consents`, `/v1/role/switch`, `/v1/handoff/request`,
+`/v1/handoff/claim`, `/v1/chat`, `/v1/demo/state`,
 `/v1/demo/read/{name}`, `/v1/demo/actions/prepare`,
 `/v1/demo/actions/confirm`. Учебные корзина, бронь, реклама, назначение задачи
 и обращение сначала создают черновик; изменение происходит лишь после явного

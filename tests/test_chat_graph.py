@@ -82,6 +82,34 @@ def test_critic_rejection_hides_draft():
     assert len(model.critic_calls) == 1
 
 
+def test_fabricated_source_reference_is_hidden_even_if_critic_approves():
+    manager = manager_for(Role.BUSINESS)
+    model = FakeModel()
+    model.chat = lambda role, query, context=None: ChatResponse(
+        "Оформление доступно по источнику №108.", role, 7
+    )
+    result = build_chat_graph(manager, model, DemoToolBroker()).invoke({
+        "query": "Как продолжить оформление расчётного счёта?",
+        "cross_role_opt_in": False,
+    })
+    assert result["decision"] == "source_reference_invalid"
+    assert "108" not in result["answer"]
+    assert model.critic_calls == []
+
+
+def test_handoff_question_has_role_bound_demo_source():
+    manager = manager_for(Role.BUSINESS)
+    model = FakeModel()
+    result = build_chat_graph(manager, model, DemoToolBroker()).invoke({
+        "query": "Помоги продолжить оформление расчётного счёта в учебном СберБизнесе: какой следующий шаг?",
+        "cross_role_opt_in": False,
+    })
+    assert result["decision"] == "source_answer"
+    assert any(s["source_id"] == "demo-business-onboarding" for s in result["sources"])
+    assert "ДЕМО:" in result["answer"]
+    assert model.calls == []
+
+
 def test_critic_failure_hides_draft():
     manager = manager_for(Role.BUSINESS)
     model = FakeModel()
